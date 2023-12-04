@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -11,6 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WorldOfBooks.Application\WorldOfBooks.Application.csproj" />
+    <ProjectReference Include="..\WorldOfBooks.DataAccess\WorldOfBooks.DataAccess.csproj" />
     <ProjectReference Include="..\WorldOfBooks.Persistence\WorldOfBooks.Persistence.csproj" />
   </ItemGroup>
 
