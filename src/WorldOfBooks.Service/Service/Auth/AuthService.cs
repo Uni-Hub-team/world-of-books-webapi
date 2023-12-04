@@ -65,9 +65,41 @@ public class AuthService : IAuthService
         return register;
     }
 
-    public Task<SendCodeResult> SendCodeForRegister(SendCodeDto dto)
+    public async Task<SendCodeResult> SendCodeForRegister(SendCodeDto dto)
     {
         throw new NotImplementedException();
+        /*if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.Phone, out UserRegisterDto registerDto))
+        {
+            VerificationDto verificationDto = new VerificationDto();
+            verificationDto.Attempt = 0;
+            verificationDto.CreatedAt = //TimeHelper.GetDateTime();
+            verificationDto.Code = 12345;//CodeGenerator.CodeGeneratorPhoneNumber();
+            _memoryCache.Set(phoneNumber, verificationDto, TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
+
+            if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + phoneNumber,
+                out VerificationDto OldverificationDto))
+            {
+                _memoryCache.Remove(phoneNumber);
+            }
+
+            _memoryCache.Set(VERIFY_REGISTER_CACHE_KEY + phoneNumber, verificationDto,
+                TimeSpan.FromMinutes(VERIFICATION_MAXIMUM_ATTEMPTS));
+
+            SmsSenderDto smsSenderDto = new SmsSenderDto();
+            smsSenderDto.Title = "Green sale\n";
+            smsSenderDto.Content = "Your verification code : " + verificationDto.Code;
+            smsSenderDto.Recipent = phoneNumber.Substring(1);
+            var result = true;//await _smsSender.SendAsync(smsSenderDto);
+
+            if (result is true)
+                return (Result: true, CachedVerificationMinutes: CACHED_FOR_MINUTS_VEFICATION);
+            else
+                return (Result: false, CACHED_FOR_MINUTS_VEFICATION: 0);
+        }
+        else
+        {
+            throw new ExpiredException();
+        }*/
     }
 
     public Task<VerifyResult> VerifyRegisterAsync(VerifyCode dto)
