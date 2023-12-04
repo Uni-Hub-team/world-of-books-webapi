@@ -1,4 +1,7 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq.Expressions;
+using WorldOfBooks.DataAccess.Contexts;
 using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.Domain.Commons;
 
@@ -6,9 +9,18 @@ namespace WorldOfBooks.DataAccess.Repositories;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditable
 {
-    public Task<TEntity> AddAsync(TEntity entity)
+    private readonly DbSet<TEntity> _dbSet;
+    private readonly WorldOfBooksDbContext _dbContext;
+    public Repository(WorldOfBooksDbContext dbContext)
     {
-        throw new NotImplementedException();
+        _dbContext = dbContext;
+        _dbSet = _dbContext.Set<TEntity>();
+    }
+    public async Task<TEntity> AddAsync(TEntity entity)
+    {
+        EntityEntry<TEntity> entry = await _dbSet.AddAsync(entity);
+            
+        return entry.Entity;
     }
 
     public void Delete(TEntity entity)
@@ -21,19 +33,23 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
         throw new NotImplementedException();
     }
 
-    public Task<bool> SaveAsync()
+    public async Task<bool> SaveAsync()
+        => await _dbContext.SaveChangesAsync() >= 0;
+
+    public IQueryable<TEntity> SelectAll(Expression<Func<TEntity, bool>> expression = null!, bool isTracking = false, string[] includes = null!)
     {
         throw new NotImplementedException();
     }
 
-    public IQueryable<TEntity> SelectAll(Expression<Func<TEntity, bool>> expression = null, bool isTracking = false, string[] includes = null)
+    public async Task<TEntity> SelectAsync(Expression<Func<TEntity, bool>> expression, string[] includes = null!)
     {
-        throw new NotImplementedException();
-    }
+        IQueryable<TEntity> entities = expression == null ? _dbSet.AsQueryable() : _dbSet.Where(expression).AsQueryable();
 
-    public Task<TEntity> SelectAsync(Expression<Func<TEntity, bool>> expression, string[] includes = null)
-    {
-        throw new NotImplementedException();
+        if (includes is not null)
+            foreach (var include in includes)
+                entities = entities.Include(include);
+
+        return await entities.FirstOrDefaultAsync();
     }
 
     public TEntity Update(TEntity entity)
