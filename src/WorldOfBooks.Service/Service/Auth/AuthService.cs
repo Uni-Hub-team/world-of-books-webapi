@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Caching.Memory;
+using WorldOfBooks.Application.Exceptions;
+using WorldOfBooks.Application.Exceptions.Auth;
 using WorldOfBooks.Application.Exceptions.Users;
 using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.Domain.Entities.Users;
+using WorldOfBooks.Domain.Enums;
+using WorldOfBooks.Persistence.Dtos;
 using WorldOfBooks.Persistence.Dtos.Auth;
 using WorldOfBooks.Persistence.Dtos.User;
 using WorldOfBooks.Persistence.ViewModels.Auth;
@@ -19,6 +23,7 @@ public class AuthService : IAuthService
     private const string REGISTER_CACHE_KEY = "register_";
     private const string VERIFY_REGISTER_CACHE_KEY = "verify_register_";
     private const string Reset_CACHE_KEY = "reset_";
+    private ITokenService _tokenService;
     private IMapper _mapper;
     private IRepository<User> _userRepository;
     private IMemoryCache _memoryCache;
@@ -26,8 +31,10 @@ public class AuthService : IAuthService
     public AuthService(
         IMapper mapper,
         IRepository<User> userRepository,
-        IMemoryCache memory)
+        IMemoryCache memory,
+        ITokenService token)
     {
+        _tokenService = token;
         _mapper = mapper;
         _userRepository = userRepository;
         _memoryCache = memory;
@@ -67,43 +74,99 @@ public class AuthService : IAuthService
 
     public async Task<SendCodeResult> SendCodeForRegister(SendCodeDto dto)
     {
-        throw new NotImplementedException();
-        /*if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.Phone, out UserRegisterDto registerDto))
+        if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.Phone, out UserCreateDto userCreate))
         {
             VerificationDto verificationDto = new VerificationDto();
             verificationDto.Attempt = 0;
-            verificationDto.CreatedAt = //TimeHelper.GetDateTime();
+            verificationDto.CreatedAt = DateTime.UtcNow;
             verificationDto.Code = 12345;//CodeGenerator.CodeGeneratorPhoneNumber();
-            _memoryCache.Set(phoneNumber, verificationDto, TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
+            _memoryCache.Set(userCreate.Phone, verificationDto, TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
 
-            if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + phoneNumber,
+            if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + userCreate.Phone,
                 out VerificationDto OldverificationDto))
             {
-                _memoryCache.Remove(phoneNumber);
+                _memoryCache.Remove(userCreate.Phone);
             }
 
-            _memoryCache.Set(VERIFY_REGISTER_CACHE_KEY + phoneNumber, verificationDto,
+            _memoryCache.Set(VERIFY_REGISTER_CACHE_KEY + userCreate.Phone, verificationDto,
                 TimeSpan.FromMinutes(VERIFICATION_MAXIMUM_ATTEMPTS));
 
             SmsSenderDto smsSenderDto = new SmsSenderDto();
-            smsSenderDto.Title = "Green sale\n";
-            smsSenderDto.Content = "Your verification code : " + verificationDto.Code;
-            smsSenderDto.Recipent = phoneNumber.Substring(1);
+            smsSenderDto.Title = "Kitoblar Olami\n";
+            smsSenderDto.Content = "Sizning tasdiqlash kodingiz : " + verificationDto.Code;
+            smsSenderDto.Recipient = userCreate.Phone.Substring(1);
             var result = true;//await _smsSender.SendAsync(smsSenderDto);
 
             if (result is true)
-                return (Result: true, CachedVerificationMinutes: CACHED_FOR_MINUTS_VEFICATION);
+            {
+                SendCodeResult sendCode = new SendCodeResult()
+                {
+                    Result = true,
+                    CachedVerificationMinutes = CACHED_FOR_MINUTS_VEFICATION
+                };
+
+                return sendCode;
+            }
             else
-                return (Result: false, CACHED_FOR_MINUTS_VEFICATION: 0);
+            {
+                SendCodeResult sendCode = new SendCodeResult()
+                {
+                    Result = false,
+                    CachedVerificationMinutes = 0
+                };
+
+                return sendCode;
+            }
         }
         else
         {
             throw new ExpiredException();
-        }*/
+        }
     }
 
-    public Task<VerifyResult> VerifyRegisterAsync(VerifyCode dto)
+    public async Task<VerifyResult> VerifyRegisterAsync(VerifyCode dto)
     {
-        throw new NotImplementedException();
+        if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.Phone, out UserCreateDto createDto))
+        {
+            if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + dto.Phone, out VerificationDto verificationDto))
+            {
+                if (verificationDto.Attempt >= VERIFICATION_MAXIMUM_ATTEMPTS)
+                    throw new VerificationTooManyRequestsException();
+
+                else if (verificationDto.Code == dto.Code)
+                {
+                    var user = _mapper.Map<User>(createDto);
+
+                    var dResult = _userRepository.Update(user);
+                    var result = await _userRepository.SaveAsync();
+
+                    var token = await _tokenService.GenerateTokenAsync(user);
+
+
+                    VerifyResult verifyResult = new VerifyResult()
+                    {
+                        Result = false,
+                        Token = token
+                    };
+                    return verifyResult;
+                }
+                else
+                {
+                    _memoryCache.Remove(VERIFY_REGISTER_CACHE_KEY + dto.Phone);
+                    verificationDto.Attempt++;
+                    _memoryCache.Set(VERIFY_REGISTER_CACHE_KEY + dto.Phone, verificationDto,
+                        TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
+
+                    VerifyResult verifyResult = new VerifyResult()
+                    {
+                        Result = false,
+                        Token = string.Empty
+                    };
+                    return verifyResult;
+                }
+            }
+            else throw new VerificationCodeExpiredException();
+        }
+        else throw new ExpiredException();
     }
 }
