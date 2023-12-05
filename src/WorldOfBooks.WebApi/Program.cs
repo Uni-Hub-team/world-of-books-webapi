@@ -19,6 +19,7 @@ builder.Services.AddDbContext<WorldOfBooksDbContext>(options =>
 
 //service
 builder.Services.AddCustomServices();
+builder.ConfigureCORSPolicy();
 
 var app = builder.Build();
 
@@ -38,11 +39,13 @@ app.UseExceptionHandler(c => c.Run(async context =>
     var response = new { error = exception.Message };
     await context.Response.WriteAsJsonAsync(response);
 }));
-//app.ApplyMigrations();
+app.ApplyMigrations();
 
 app.InitAccessor();
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
