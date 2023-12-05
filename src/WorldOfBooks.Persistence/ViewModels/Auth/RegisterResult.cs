@@ -3,5 +3,5 @@
 public class RegisterResult
 {
     public bool Result { get; set; }
-    public int CacheRegisterMinutes {  get; set; } 
+    public int CacheRegisterMinutes { get; set; }
 }
