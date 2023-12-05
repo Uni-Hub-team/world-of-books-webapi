@@ -10,6 +10,8 @@ using WorldOfBooks.Persistence.Dtos;
 using WorldOfBooks.Persistence.Dtos.Auth;
 using WorldOfBooks.Persistence.Dtos.User;
 using WorldOfBooks.Persistence.ViewModels.Auth;
+using WorldOfBooks.Service.Commons.Helpers;
+using WorldOfBooks.Service.Commons.Security;
 using WorldOfBooks.Service.Interfaces.Auth;
 
 namespace WorldOfBooks.Service.Service.Auth;
@@ -137,6 +139,11 @@ public class AuthService : IAuthService
                 {
                     var user = _mapper.Map<User>(createDto);
 
+                    var resultPassword = PasswordHasher.Hash(createDto.Password);
+                    user.PasswordHash = resultPassword.Hash;
+                    user.Salt = resultPassword.Salt;
+                    user.CreatedAt = TimeHelper.GetDateTime();
+
                     var dResult = _userRepository.Update(user);
                     var result = await _userRepository.SaveAsync();
 
@@ -145,7 +152,7 @@ public class AuthService : IAuthService
 
                     VerifyResult verifyResult = new VerifyResult()
                     {
-                        Result = false,
+                        Result = true,
                         Token = token
                     };
                     return verifyResult;

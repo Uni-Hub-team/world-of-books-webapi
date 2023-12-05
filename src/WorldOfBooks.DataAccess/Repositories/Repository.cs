@@ -54,6 +54,8 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
 
     public TEntity Update(TEntity entity)
     {
-        throw new NotImplementedException();
+        EntityEntry<TEntity> entry = _dbContext.Update(entity);
+
+        return entry.Entity;
     }
 }
