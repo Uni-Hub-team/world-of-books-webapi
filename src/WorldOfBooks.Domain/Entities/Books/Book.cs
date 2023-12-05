@@ -10,5 +10,5 @@ public class Book : Auditable
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Path { get; set; } = string.Empty;
-    public string AudioPath {  get; set; } = string.Empty;
+    public string AudioPath { get; set; } = string.Empty;
 }

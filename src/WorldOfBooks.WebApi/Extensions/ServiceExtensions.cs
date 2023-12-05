@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using WorldOfBooks.DataAccess.IRepositories;
+﻿using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.DataAccess.Repositories;
 using WorldOfBooks.Service.Interfaces.Auth;
 using WorldOfBooks.Service.Mappers;
@@ -21,7 +19,7 @@ public static class ServiceExtensions
         services.AddHttpContextAccessor();
 
         #region Services
-       
+
 
         //Auth
         services.AddScoped<IAuthService, AuthService>();

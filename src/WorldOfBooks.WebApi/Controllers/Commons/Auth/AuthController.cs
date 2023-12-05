@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WorldOfBooks.Persistence.Dtos.Auth;
 using WorldOfBooks.Persistence.Dtos.User;
 using WorldOfBooks.Service.Interfaces.Auth;
-using WorldOfBooks.Service.Service.Auth;
 
 namespace WorldOfBooks.WebApi.Controllers.Commons.Auth;
 
@@ -34,7 +32,7 @@ public class AuthController : BaseController
     [HttpPost("register/send-code")]
     public async Task<IActionResult> SendCodeAsync([FromBody] SendCodeDto dto)
     {
-       // var valid = PhoneNumberValidator.IsValid(phone);
+        // var valid = PhoneNumberValidator.IsValid(phone);
         if (true)
         {
             var result = await _service.SendCodeForRegister(dto);
@@ -57,9 +55,9 @@ public class AuthController : BaseController
     [HttpPost("login")]
     public async Task<IActionResult> LoginAsync([FromBody] UserLoginDto dto)
     {
-      /*  var res = PhoneNumberValidator.IsValid(dto.PhoneNumber);
-        if (res == false)
-            return BadRequest("Phone number is invalid!");*/
+        /*  var res = PhoneNumberValidator.IsValid(dto.PhoneNumber);
+          if (res == false)
+              return BadRequest("Phone number is invalid!");*/
 
         var serviceResult = await _service.LoginAsync(dto);
 

@@ -6,5 +6,5 @@ public class BookStar : Auditable
 {
     public long BookId { get; set; }
     public long UserId { get; set; }
-    public int Star {  get; set; } 
+    public int Star { get; set; }
 }

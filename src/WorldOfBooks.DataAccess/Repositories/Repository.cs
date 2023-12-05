@@ -19,7 +19,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
     public async Task<TEntity> AddAsync(TEntity entity)
     {
         EntityEntry<TEntity> entry = await _dbSet.AddAsync(entity);
-            
+
         return entry.Entity;
     }
 
