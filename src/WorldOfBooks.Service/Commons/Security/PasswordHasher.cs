@@ -9,8 +9,6 @@ public class PasswordHasher
 
         return (Hash: hash, Salt: salt);
     }
-    public static bool Verify(string password, string salt, string hash)
-    {
-        return BCrypt.Net.BCrypt.Verify(password + salt, hash);
-    }
+    public static bool Verify(string password, string hash, string salt)
+        => BCrypt.Net.BCrypt.Verify(password + salt, hash);
 }

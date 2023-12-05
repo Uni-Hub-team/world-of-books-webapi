@@ -5,7 +5,6 @@ using WorldOfBooks.Application.Exceptions.Auth;
 using WorldOfBooks.Application.Exceptions.Users;
 using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.Domain.Entities.Users;
-using WorldOfBooks.Domain.Enums;
 using WorldOfBooks.Persistence.Dtos;
 using WorldOfBooks.Persistence.Dtos.Auth;
 using WorldOfBooks.Persistence.Dtos.User;
@@ -42,9 +41,24 @@ public class AuthService : IAuthService
         _memoryCache = memory;
     }
 
-    public Task<LoginResult> LoginAsync(UserLoginDto dto)
+    public async Task<LoginResult> LoginAsync(UserLoginDto dto)
     {
-        throw new NotImplementedException();
+        var existUser = await _userRepository.SelectAsync(user => user.Phone.Equals(dto.Login))
+            ?? throw new UserNotFoundException();
+
+        var hasherResult = PasswordHasher.Verify(dto.Password, existUser.PasswordHash, existUser.Salt);
+        if (!hasherResult)
+            throw new PasswordNotMatchException();
+
+        var token = await _tokenService.GenerateTokenAsync(existUser);
+
+        LoginResult authResult = new LoginResult()
+        {
+            Result = true,
+            Token = token
+        };
+
+        return authResult;
     }
 
     public async Task<RegisterResult> RegisterAsync(UserCreateDto dto)
