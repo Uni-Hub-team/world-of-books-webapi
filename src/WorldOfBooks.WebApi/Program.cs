@@ -1,6 +1,7 @@
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using Revision.WebApi.Extensions;
 using WorldOfBooks.DataAccess.Contexts;
+using WorldOfBooks.WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//app.UseMiddleware<ExceptionHandlerMiddleware>();
+app.UseExceptionHandler(c => c.Run(async context =>
+{
+    var exception = context.Features
+        .Get<IExceptionHandlerPathFeature>()
+        .Error;
+    var response = new { error = exception.Message };
+    await context.Response.WriteAsJsonAsync(response);
+}));
+//app.ApplyMigrations();
 
 app.InitAccessor();
 

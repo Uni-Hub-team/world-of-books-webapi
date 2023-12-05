@@ -1,6 +1,7 @@
 ﻿using WorldOfBooks.Service.Commons.Helpers;
 
-namespace Revision.WebApi.Extensions;
+namespace WorldOfBooks.WebApi.Extensions;
+
 
 public static class HttpContextExtensions
 {
