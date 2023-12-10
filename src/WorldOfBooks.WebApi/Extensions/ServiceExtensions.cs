@@ -2,6 +2,7 @@
 using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.DataAccess.Repositories;
 using WorldOfBooks.Service.Interfaces.Auth;
+using WorldOfBooks.Service.Interfaces.Categories;
 using WorldOfBooks.Service.Interfaces.User;
 using WorldOfBooks.Service.Mappers;
 using WorldOfBooks.Service.Service.Auth;
@@ -33,6 +34,8 @@ public static class ServiceExtensions
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ICategoryService, CategoryService>();
+
         #endregion
     }
 }
