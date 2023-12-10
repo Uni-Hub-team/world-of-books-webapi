@@ -2,8 +2,10 @@
 using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.DataAccess.Repositories;
 using WorldOfBooks.Service.Interfaces.Auth;
+using WorldOfBooks.Service.Interfaces.User;
 using WorldOfBooks.Service.Mappers;
 using WorldOfBooks.Service.Service.Auth;
+using WorldOfBooks.Service.Service.Users;
 using WorldOfBooks.WebApi.Middleware;
 
 namespace WorldOfBooks.WebApi.Extensions;
@@ -30,6 +32,7 @@ public static class ServiceExtensions
         //Auth
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IUserService, UserService>();
         #endregion
     }
 }
