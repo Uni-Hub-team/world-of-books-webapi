@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using WorldOfBooks.Application.Exceptions.Categories;
-using WorldOfBooks.Application.Exceptions.Users;
 using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.Domain.Entities.Categories;
 using WorldOfBooks.Domain.Enums;
 using WorldOfBooks.Persistence.Dtos.Categories;
-using WorldOfBooks.Persistence.ViewModels.User;
 using WorldOfBooks.Service.Commons.Helpers;
 
 namespace WorldOfBooks.Service.Interfaces.Categories;
@@ -28,7 +26,7 @@ public class CategoryService : ICategoryService
         if (existCategory is not null)
             throw new CategoryAlreadyExistsException();
 
-        var mappedCategory= _mapper.Map<Category>(dto);
+        var mappedCategory = _mapper.Map<Category>(dto);
         mappedCategory.CreatedAt = TimeHelper.GetDateTime();
 
         await _categoryRepository.AddAsync(mappedCategory);
@@ -49,7 +47,7 @@ public class CategoryService : ICategoryService
 
     public async Task<IEnumerable<CategoryResultDto>> GetAllAsync()
     {
-        var categories =  _categoryRepository.SelectAll();
+        var categories = _categoryRepository.SelectAll();
 
         return _mapper.Map<IEnumerable<CategoryResultDto>>(categories);
     }
