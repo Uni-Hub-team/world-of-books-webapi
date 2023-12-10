@@ -10,7 +10,7 @@ public static class DataExtensions
         using (var scope = app.Services.CreateScope())
         {
             var db = scope.ServiceProvider.GetRequiredService<WorldOfBooksDbContext>();
-            db.Database.Migrate();
+            //db.Database.Migrate();
         }
     }
 }
