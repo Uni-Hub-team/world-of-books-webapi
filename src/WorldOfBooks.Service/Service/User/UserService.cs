@@ -6,6 +6,7 @@ using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.Domain.Configurations;
 using WorldOfBooks.Domain.Entities.Users;
 using WorldOfBooks.Domain.Enums;
+using WorldOfBooks.Persistence.Dtos.RoleDto;
 using WorldOfBooks.Persistence.Dtos.User;
 using WorldOfBooks.Persistence.ViewModels.User;
 using WorldOfBooks.Service.Commons.Helpers;
@@ -114,13 +115,13 @@ public class UserService : IUserService
         return _mapper.Map<UserResultDto>(existUser);
     }
 
-    public async Task<UserResultDto> UpgradeRoleAsync(long id, Role role)
+    public async Task<UserResultDto> UpgradeRoleAsync(long id, UserRoleUpdateDto dto)
     {
         var existUser = await _userRepository.SelectAsync(u => u.Id.Equals(id))
              ?? throw new UserNotFoundException();
 
         existUser.Id = id;
-        existUser.Role = role;
+        existUser.Role = dto.Role;
         existUser.UpdatedAt = TimeHelper.GetDateTime();
 
         _userRepository.Update(existUser);
