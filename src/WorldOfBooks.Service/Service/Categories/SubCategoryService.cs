@@ -72,6 +72,9 @@ public class SubCategoryService : ISubCategoryService
         var existSubCategory = await _subCategoryRepository.SelectAsync(subCategory => subCategory.Id.Equals(id))
             ?? throw new CategoryNotFoundException();
 
+        var existCategory = await _categoryRepository.SelectAsync(category => category.Id.Equals(dto.CategoryId))
+          ?? throw new CategoryNotFoundException();
+
         var mappedSubCategory = _mapper.Map(dto, existSubCategory);
         mappedSubCategory.Id = id;
         mappedSubCategory.UpdatedAt = TimeHelper.GetDateTime();

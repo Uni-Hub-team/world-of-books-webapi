@@ -5,5 +5,5 @@ namespace WorldOfBooks.Persistence.Dtos.Categories;
 public class SubCategoryResultDto : Auditable
 {
     public string Name { get; set; } = string.Empty;
-    public long CategoryID { get; set; }
+    public long CategoryId { get; set; }
 }
