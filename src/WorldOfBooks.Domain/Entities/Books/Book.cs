@@ -15,8 +15,8 @@ public class Book : Auditable
     public Category? Category { get; set; }
 
     public long SubCategoryId { get; set; }
-    public SubCategory? SubCategory {  get; set; }
+    public SubCategory? SubCategory { get; set; }
 
     public long AuthorId { get; set; }
-    public Author? Author {  get; set; }
+    public Author? Author { get; set; }
 }

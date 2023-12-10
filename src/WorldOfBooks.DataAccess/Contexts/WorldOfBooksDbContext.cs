@@ -1,12 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Metrics;
-using System.Net;
-using System;
 using WorldOfBooks.Domain.Entities.Authors;
 using WorldOfBooks.Domain.Entities.Books;
 using WorldOfBooks.Domain.Entities.Categories;
 using WorldOfBooks.Domain.Entities.Users;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace WorldOfBooks.DataAccess.Contexts;
 

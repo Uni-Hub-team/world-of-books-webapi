@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WorldOfBooks.DataAccess.Contexts;
+﻿using WorldOfBooks.DataAccess.Contexts;
 
 namespace WorldOfBooks.WebApi.Extensions;
 
