@@ -26,7 +26,7 @@ public class CategoryService : ICategoryService
         var existCategory = await _categoryRepository.SelectAsync(category =>
         category.Name.ToLower().Equals(dto.Name.ToLower()));
         if (existCategory is not null)
-            throw new CategoryAlreadyExistsException();
+            throw new UserAlreadyExistsException();
 
         var mappedCategory= _mapper.Map<Category>(dto);
         mappedCategory.CreatedAt = TimeHelper.GetDateTime();

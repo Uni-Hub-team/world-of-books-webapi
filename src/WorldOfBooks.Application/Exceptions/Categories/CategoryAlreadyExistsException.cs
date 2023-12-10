@@ -1,4 +1,6 @@
-﻿namespace WorldOfBooks.Application.Exceptions.Users;
+﻿using WorldOfBooks.Application.Exceptions;
+
+namespace WorldOfBooks.Application.Categories.Users;
 
 public class CategoryAlreadyExistsException : AlreadyExistsException
 {

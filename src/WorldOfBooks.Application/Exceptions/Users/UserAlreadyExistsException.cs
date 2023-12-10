@@ -1,8 +1,8 @@
-﻿namespace WorldOfBooks.Application.Exceptions.Categories;
+﻿namespace WorldOfBooks.Application.Exceptions.Users;
 
-public class CategoryAlreadyExistsException : AlreadyExistsException
+public class UserAlreadyExistsException : AlreadyExistsException
 {
-    public CategoryAlreadyExistsException()
+    public UserAlreadyExistsException()
     {
         TitleMessage = "User already exists";
     }
