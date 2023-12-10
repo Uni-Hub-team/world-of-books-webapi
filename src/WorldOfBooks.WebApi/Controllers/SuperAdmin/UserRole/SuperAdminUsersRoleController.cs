@@ -4,7 +4,7 @@ using WorldOfBooks.Service.Interfaces.User;
 
 namespace WorldOfBooks.WebApi.Controllers.SuperAdmin.UserRole;
 
-[Route("api/[controller]")]
+[Route("api/super/admin/user/roles")]
 [ApiController]
 public class SuperAdminUsersRoleController : BaseSuperAdminController
 {
