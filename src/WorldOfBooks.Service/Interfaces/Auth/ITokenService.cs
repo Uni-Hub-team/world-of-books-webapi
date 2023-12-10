@@ -1,8 +1,6 @@
-﻿using WorldOfBooks.Domain.Entities.Users;
-
-namespace WorldOfBooks.Service.Interfaces.Auth;
+﻿namespace WorldOfBooks.Service.Interfaces.Auth;
 
 public interface ITokenService
 {
-    Task<string> GenerateTokenAsync(WorldOfBooks.Domain.Entities.Users.User user);
+    Task<string> GenerateTokenAsync(User user);
 }

@@ -19,10 +19,10 @@ public class SuperAdminUsersRoleController : BaseSuperAdminController
 
     [HttpGet("{Id}")]
     public async Task<IActionResult> GetByIdAsync(long Id)
-        => Ok( await _userService.GetByIdAsync(Id));
+        => Ok(await _userService.GetByIdAsync(Id));
 
 
     [HttpPut("{Id}")]
     public async Task<IActionResult> UpdateAsync(long Id, [FromBody] UserRoleUpdateDto dto)
-        =>Ok( await _userService.UpgradeRoleAsync(Id, dto));
+        => Ok(await _userService.UpgradeRoleAsync(Id, dto));
 }
