@@ -20,6 +20,8 @@ builder.Services.AddDbContext<WorldOfBooksDbContext>(options =>
 //service
 builder.Services.AddCustomServices();
 builder.ConfigureCORSPolicy();
+builder.ConfigureSwaggerAuth();
+builder.ConfigureJwtAuth();
 
 var app = builder.Build();
 

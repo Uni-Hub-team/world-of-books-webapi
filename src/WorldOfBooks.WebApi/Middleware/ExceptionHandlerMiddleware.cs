@@ -1,9 +1,4 @@
-﻿
-
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System;
+﻿using Newtonsoft.Json;
 using WorldOfBooks.Application.Exceptions;
 
 namespace WorldOfBooks.WebApi.Middleware;
