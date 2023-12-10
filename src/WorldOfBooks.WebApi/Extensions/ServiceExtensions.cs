@@ -35,6 +35,7 @@ public static class ServiceExtensions
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<ISubCategoryService, SubCategoryService>();
 
         #endregion
     }
