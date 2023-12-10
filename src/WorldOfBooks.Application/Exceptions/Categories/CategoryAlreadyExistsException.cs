@@ -1,11 +1,11 @@
 ﻿using WorldOfBooks.Application.Exceptions;
 
-namespace WorldOfBooks.Application.Categories.Users;
+namespace WorldOfBooks.Application.Exceptions.Categories;
 
 public class CategoryAlreadyExistsException : AlreadyExistsException
 {
     public CategoryAlreadyExistsException()
     {
-        TitleMessage = "User already exists";
+        TitleMessage = "Category already exists";
     }
 }

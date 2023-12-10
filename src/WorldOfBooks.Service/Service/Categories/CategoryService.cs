@@ -26,7 +26,7 @@ public class CategoryService : ICategoryService
         var existCategory = await _categoryRepository.SelectAsync(category =>
         category.Name.ToLower().Equals(dto.Name.ToLower()));
         if (existCategory is not null)
-            throw new UserAlreadyExistsException();
+            throw new CategoryAlreadyExistsException();
 
         var mappedCategory= _mapper.Map<Category>(dto);
         mappedCategory.CreatedAt = TimeHelper.GetDateTime();
@@ -39,10 +39,10 @@ public class CategoryService : ICategoryService
 
     public async Task<bool> DeleteAsync(long id)
     {
-        var existDevice = await _categoryRepository.SelectAsync(device => device.Id.Equals(id))
+        var existCategory = await _categoryRepository.SelectAsync(category => category.Id.Equals(id))
            ?? throw new CategoryNotFoundException();
 
-        _categoryRepository.Delete(existDevice);
+        _categoryRepository.Delete(existCategory);
         await _categoryRepository.SaveAsync();
         return true;
     }
@@ -57,15 +57,15 @@ public class CategoryService : ICategoryService
     public async Task<CategoryResultDto> GetByIdAsync(long id)
     {
         var existCategory = await _categoryRepository.SelectAsync(category => category.Id.Equals(id))
-           ?? throw new UserNotFoundException();
+           ?? throw new CategoryNotFoundException();
 
         return _mapper.Map<CategoryResultDto>(existCategory);
     }
 
     public async Task<CategoryResultDto> UpdateAsync(long id, CategoryUpdateDto dto)
     {
-        var existCategory = await _categoryRepository.SelectAsync(user => user.Id.Equals(id))
-            ?? throw new UserNotFoundException();
+        var existCategory = await _categoryRepository.SelectAsync(category => category.Id.Equals(id))
+            ?? throw new CategoryNotFoundException();
 
         var mappedCategory = _mapper.Map(dto, existCategory);
         mappedCategory.Id = id;
@@ -79,8 +79,8 @@ public class CategoryService : ICategoryService
 
     public async Task<CategoryResultDto> UpgradeStatusAsync(long id, Status status)
     {
-        var existCategory = await _categoryRepository.SelectAsync(user => user.Id.Equals(id))
-            ?? throw new UserNotFoundException();
+        var existCategory = await _categoryRepository.SelectAsync(category => category.Id.Equals(id))
+            ?? throw new CategoryNotFoundException();
 
         existCategory.Id = id;
         existCategory.status = status;

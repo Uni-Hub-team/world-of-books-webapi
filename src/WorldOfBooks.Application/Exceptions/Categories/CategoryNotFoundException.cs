@@ -4,6 +4,6 @@ public class CategoryNotFoundException : NotFoundException
 {
     public CategoryNotFoundException()
     {
-        this.TitleMessage = "User not found";
+        this.TitleMessage = "Category not found";
     }
 }

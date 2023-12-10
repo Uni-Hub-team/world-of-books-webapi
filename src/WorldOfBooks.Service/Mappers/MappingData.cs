@@ -15,8 +15,13 @@ public class MappingData : Profile
         CreateMap<User, UserUpdateDto>().ReverseMap();
         CreateMap<User, UserCreateDto>().ReverseMap();
         CreateMap<User, UserResultDto>().ReverseMap();
+
         CreateMap<Category, CategoryResultDto>().ReverseMap();
         CreateMap<Category, CategoryCreateDto>().ReverseMap();
         CreateMap<Category, CategoryUpdateDto>().ReverseMap();
+
+        CreateMap<SubCategory, SubCategoryResultDto>().ReverseMap();
+        CreateMap<SubCategory, SubCategoryCreateDto>().ReverseMap();
+        CreateMap<SubCategory, SubCategoryUpdateDto>().ReverseMap();
     }
 }
