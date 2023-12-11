@@ -8,7 +8,8 @@ public class Book : Auditable
 {
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
-    public string Path { get; set; } = string.Empty;
+    public string SourcePath { get; set; } = string.Empty;
+    public string ImagePath { get; set; } = string.Empty;
     public string AudioPath { get; set; } = string.Empty;
 
     public long CategoryId { get; set; }

@@ -28,6 +28,9 @@
 
   <ItemGroup>
     <Folder Include="Controllers\User\" />
+    <Folder Include="wwwroot\Media\Books\Audio\" />
+    <Folder Include="wwwroot\Media\Books\Source\" />
+    <Folder Include="wwwroot\Media\Images\" />
   </ItemGroup>
 
 </Project>
