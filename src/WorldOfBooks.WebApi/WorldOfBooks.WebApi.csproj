@@ -30,7 +30,8 @@
     <Folder Include="Controllers\User\" />
     <Folder Include="wwwroot\Media\Books\Audio\" />
     <Folder Include="wwwroot\Media\Books\Source\" />
-    <Folder Include="wwwroot\Media\Images\" />
+    <Folder Include="wwwroot\Media\Images\Books\" />
+    <Folder Include="wwwroot\Media\Images\Users\" />
   </ItemGroup>
 
 </Project>
