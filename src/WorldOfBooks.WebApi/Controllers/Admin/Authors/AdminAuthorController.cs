@@ -24,7 +24,7 @@ public class AdminAuthorController : BaseAdminController
         => Ok(await _authorService.UpdateAsync(Id, dto));
 
     [HttpPut("image/{Id}")]
-    public async Task<IActionResult> UpdateImageAsync(long Id, IFormFile file)
+    public async Task<IActionResult> UpdateImageAsync(long Id, AuthorImageUpdateDto file)
         => Ok(await _authorService.UpdateImageAsync(Id, file));
 
     [HttpDelete("{Id}")]

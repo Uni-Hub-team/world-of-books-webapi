@@ -93,7 +93,7 @@ public class AuthorService : IAuthorService
         return _mapper.Map<AuthorResult>(mappedAuthor);
     }
 
-    public async Task<AuthorResult> UpdateImageAsync(long id, IFormFile file)
+    public async Task<AuthorResult> UpdateImageAsync(long id, AuthorImageUpdateDto dto)
     {
         var existAuthor = await _authorRepository.SelectAsync(category => category.Id.Equals(id))
             ?? throw new AuthorNotFoundException();
@@ -102,7 +102,7 @@ public class AuthorService : IAuthorService
 
         if (result)
         {
-            var img = await _fileService.UploadImageAsync(file, USERS);
+            var img = await _fileService.UploadImageAsync(dto.Images, USERS);
             existAuthor.ImagePath = img;
             existAuthor.UpdatedAt = TimeHelper.GetDateTime();
         }
