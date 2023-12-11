@@ -37,7 +37,7 @@ public class AuthorService : IAuthorService
 
         var mappedAuthor = _mapper.Map<Author>(dto);
 
-        var Img = await _fileService.UploadImageAsync(dto.Images!, USERS);
+        var Img = await _fileService.UploadImageAsync(dto.Images, USERS);
         mappedAuthor.ImagePath = Img;
         mappedAuthor.CreatedAt = TimeHelper.GetDateTime();
 
