@@ -37,9 +37,11 @@ public class UserService : IUserService
         return true;
     }
 
-    public Task<IEnumerable<UserResultDto>> GetAllAsync()
+    public async Task<IEnumerable<UserResultDto>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var users = _userRepository.SelectAll();
+
+        return _mapper.Map<IEnumerable<UserResultDto>>(users);
     }
 
     public async Task<IEnumerable<UserResultDto>> GetAllAsync(PaginationParams pagination, string search = null)

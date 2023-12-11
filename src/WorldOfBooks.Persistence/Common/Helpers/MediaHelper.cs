@@ -58,7 +58,7 @@ public class MediaHelper
     {
         return new string[]
         {
-            ".pdf", 
+            ".pdf",
             ".epub",
             ".doc",
             ".docx"

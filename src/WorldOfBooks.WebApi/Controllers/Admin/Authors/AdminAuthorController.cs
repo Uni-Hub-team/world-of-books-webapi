@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using WorldOfBooks.Domain.Enums;
+﻿using Microsoft.AspNetCore.Mvc;
 using WorldOfBooks.Persistence.Dtos.Authors;
-using WorldOfBooks.Persistence.Dtos.Categories;
 using WorldOfBooks.Service.Interfaces.Authors;
-using WorldOfBooks.Service.Interfaces.Categories;
 
 namespace WorldOfBooks.WebApi.Controllers.Admin.Authors;
 

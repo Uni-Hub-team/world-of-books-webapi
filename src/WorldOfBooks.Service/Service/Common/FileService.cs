@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using WorldOfBooks.Domain.Entities.Books;
 using WorldOfBooks.Persistence.Helpers;
 using WorldOfBooks.Service.Interfaces.Common;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace WorldOfBooks.Service.Service.Common;
 

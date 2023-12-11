@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WorldOfBooks.Domain.Enums;
 using WorldOfBooks.Persistence.Dtos.Categories;
-using WorldOfBooks.Persistence.Dtos.RoleDto;
 using WorldOfBooks.Service.Interfaces.Categories;
-using WorldOfBooks.Service.Interfaces.User;
 
 namespace WorldOfBooks.WebApi.Controllers.Admin.Categories;
 
@@ -27,10 +25,10 @@ public class AdminCategoryController : BaseAdminController
         => Ok(await _categoryService.UpdateAsync(Id, dto));
 
     [HttpPut("status/{Id}")]
-    public async Task<IActionResult> UpdateStatusAsync(long Id, [FromBody]  Status status)
+    public async Task<IActionResult> UpdateStatusAsync(long Id, [FromBody] Status status)
         => Ok(await _categoryService.UpgradeStatusAsync(Id, status));
 
     [HttpDelete("{Id}")]
     public async Task<IActionResult> DeleteAsync(long Id)
-        =>Ok(await _categoryService.DeleteAsync(Id));
+        => Ok(await _categoryService.DeleteAsync(Id));
 }

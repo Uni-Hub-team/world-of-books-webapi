@@ -17,13 +17,13 @@ public class AdminSubCategoryController : BaseAdminController
 
     [HttpPost]
     public async Task<IActionResult> CreatedAsync([FromForm] SubCategoryCreateDto dto)
-        =>Ok(await _subCategoryService.CreateAsync(dto));
+        => Ok(await _subCategoryService.CreateAsync(dto));
 
     [HttpPut("{Id}")]
     public async Task<IActionResult> UpdateAsync(long Id, [FromBody] SubCategoryUpdateDto dto)
-        =>Ok(await _subCategoryService.UpdateAsync(Id, dto));
+        => Ok(await _subCategoryService.UpdateAsync(Id, dto));
 
     [HttpDelete("{Id}")]
     public async Task<IActionResult> DeleteAsync(long Id)
-        =>Ok(await _subCategoryService.DeleteAsync(Id));
+        => Ok(await _subCategoryService.DeleteAsync(Id));
 }
