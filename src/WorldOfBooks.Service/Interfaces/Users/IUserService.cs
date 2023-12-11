@@ -1,5 +1,4 @@
-﻿using WorldOfBooks.Domain.Configurations;
-using WorldOfBooks.Domain.Enums;
+﻿using WorldOfBooks.Domain.Enums;
 using WorldOfBooks.Persistence.Dtos.RoleDto;
 using WorldOfBooks.Persistence.Dtos.User;
 using WorldOfBooks.Persistence.ViewModels.User;
@@ -8,7 +7,6 @@ namespace WorldOfBooks.Service.Interfaces.User;
 
 public interface IUserService
 {
-    //Task<UserResultDto> CreateAsync(UserCreationDto dto);
     Task<UserResultDto> UpdateAsync(long id, UserUpdateDto dto);
     Task<UserResultDto> UpgradeRoleAsync(long id, UserRoleUpdateDto dto);
     Task<bool> DeleteAsync(long id);
@@ -16,5 +14,5 @@ public interface IUserService
     Task<IEnumerable<UserResultDto>> GetByRoleAsync(Role role);
     Task<UserResultDto> UpdateSecurityAsync(long id, UserSecurityUpdateDto security);
     Task<IEnumerable<UserResultDto>> GetAllAsync();
-    Task<IEnumerable<UserResultDto>> GetAllAsync(PaginationParams pagination, string search = null);
+    //Task<IEnumerable<UserResultDto>> GetAllAsync(PaginationParams pagination, string search = null);
 }

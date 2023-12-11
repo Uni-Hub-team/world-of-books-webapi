@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using WorldOfBooks.Application.Exceptions.Authors;
-using WorldOfBooks.Application.Exceptions.Categories;
 using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.Domain.Entities.Authors;
-using WorldOfBooks.Domain.Entities.Categories;
 using WorldOfBooks.Persistence.Dtos.Authors;
-using WorldOfBooks.Persistence.Dtos.Categories;
 using WorldOfBooks.Persistence.ViewModels.Authors;
 using WorldOfBooks.Service.Commons.Helpers;
 using WorldOfBooks.Service.Interfaces.Authors;
@@ -23,7 +20,7 @@ public class AuthorService : IAuthorService
     private readonly string USERS = "Users";
 
     public AuthorService(
-        IMapper mapper, 
+        IMapper mapper,
         IRepository<Author> authorRepository,
         IFileService Service)
     {
