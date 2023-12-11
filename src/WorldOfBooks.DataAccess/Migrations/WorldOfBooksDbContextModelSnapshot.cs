@@ -89,10 +89,14 @@ namespace WorldOfBooks.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Path")
+                    b.Property<string>("SourcePath")
                         .IsRequired()
                         .HasColumnType("text");
 

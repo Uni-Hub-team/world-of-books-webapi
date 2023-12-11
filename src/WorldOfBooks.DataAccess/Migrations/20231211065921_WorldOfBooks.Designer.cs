@@ -12,8 +12,8 @@ using WorldOfBooks.DataAccess.Contexts;
 namespace WorldOfBooks.DataAccess.Migrations
 {
     [DbContext(typeof(WorldOfBooksDbContext))]
-    [Migration("20231205071244_Initialize")]
-    partial class Initialize
+    [Migration("20231211065921_WorldOfBooks")]
+    partial class WorldOfBooks
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,10 +92,14 @@ namespace WorldOfBooks.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Path")
+                    b.Property<string>("SourcePath")
                         .IsRequired()
                         .HasColumnType("text");
 
