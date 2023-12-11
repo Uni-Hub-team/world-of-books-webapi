@@ -8,5 +8,4 @@ public class AuthorUpdateDto
     public string Birthday { get; set; } = string.Empty;
     public string BirthdayCountry { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
-    public IFormFile? Images { get; set; } = default;
 }
