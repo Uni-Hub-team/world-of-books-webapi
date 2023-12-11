@@ -1,4 +1,5 @@
-﻿using WorldOfBooks.Domain.Configurations;
+﻿using Microsoft.AspNetCore.Http;
+using WorldOfBooks.Domain.Configurations;
 using WorldOfBooks.Domain.Enums;
 using WorldOfBooks.Persistence.Dtos.Authors;
 using WorldOfBooks.Persistence.Dtos.RoleDto;
@@ -12,6 +13,7 @@ public interface IAuthorService
 {
     Task<AuthorResult> CreateAsync(AuthorCreateDto dto);
     Task<AuthorResult> UpdateAsync(long id, AuthorUpdateDto dto);
+    Task<AuthorResult> UpdateImageAsync(long id, IFormFile file);
     Task<bool> DeleteAsync(long id);
     Task<AuthorResult> GetByIdAsync(long id);
     Task<IEnumerable<AuthorResult>> GetAllAsync();

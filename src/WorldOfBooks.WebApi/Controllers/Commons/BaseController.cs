@@ -7,5 +7,4 @@ namespace WorldOfBooks.WebApi.Controllers.Commons;
 [ApiController]
 [AllowAnonymous]
 public class BaseController : ControllerBase
-{
-}
+{ }
