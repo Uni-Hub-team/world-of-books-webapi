@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using WorldOfBooks.Domain.Entities.Authors;
+using WorldOfBooks.Domain.Entities.Books;
 using WorldOfBooks.Domain.Entities.Categories;
 using WorldOfBooks.Domain.Entities.Users;
 using WorldOfBooks.Persistence.Dtos.Authors;
+using WorldOfBooks.Persistence.Dtos.Books;
 using WorldOfBooks.Persistence.Dtos.Categories;
 using WorldOfBooks.Persistence.Dtos.User;
 using WorldOfBooks.Persistence.ViewModels.Authors;
+using WorldOfBooks.Persistence.ViewModels.Books;
 using WorldOfBooks.Persistence.ViewModels.User;
 
 namespace WorldOfBooks.Service.Mappers;
@@ -30,5 +33,9 @@ public class MappingData : Profile
         CreateMap<Author, AuthorResult>().ReverseMap();
         CreateMap<Author, AuthorCreateDto>().ReverseMap();
         CreateMap<Author, AuthorUpdateDto>().ReverseMap();
+
+        CreateMap<Book, BookResult>().ReverseMap();
+        CreateMap<Book, BookCreateDto>().ReverseMap();
+        CreateMap<Book, BookUpdateDto>().ReverseMap();
     }
 }
