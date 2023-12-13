@@ -1,0 +1,38 @@
+[
+  {
+    "name": "wewe",
+    "status": 0,
+    "subCategories": [
+      {
+        "name": "qwdqw",
+        "category": {
+          "name": "wewe",
+          "status": 0,
+          "books": null,
+          "subCategories": [
+            {
+              "name": "qwdqw",
+              "categoryId": 1,
+              "id": 1,
+              "createdAt": "2023-12-11T21:47:21.203851Z",
+              "updatedAt": null,
+              "isDeleted": false
+            }
+          ],
+          "id": 1,
+          "createdAt": "2023-12-11T21:47:10.827613Z",
+          "updatedAt": null,
+          "isDeleted": false
+        },
+        "id": 1,
+        "createdAt": "2023-12-11T21:47:21.203851Z",
+        "updatedAt": null,
+        "isDeleted": false
+      }
+    ],
+    "id": 1,
+    "createdAt": "2023-12-11T21:47:10.827613Z",
+    "updatedAt": null,
+    "isDeleted": false
+  }
+]
