@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using WorldOfBooks.Persistence.Dtos.Books;
 using WorldOfBooks.Service.Interfaces.Books;
 
@@ -19,11 +20,23 @@ public class AdminBookController : BaseAdminController
     public async Task<IActionResult> CreateAsync([FromForm] BookCreateDto dto)
         => Ok(await _bookService.CreateAsync(dto));
 
+    [HttpDelete("{Id}")]
+    public async Task<IActionResult> DeleteAsync(long Id)
+    => Ok(await _bookService.DeleteAsync(Id));
+
     [HttpPut("{Id}")]
     public async Task<IActionResult> UpdateAsync(long Id, [FromForm] BookUpdateDto dto)
         => Ok(await _bookService.UpdateAsync(Id, dto));
 
-    [HttpDelete("{Id}")]
-    public async Task<IActionResult> DeleteAsync(long Id)
-        => Ok(await _bookService.DeleteAsync(Id));
+    [HttpPut("image/{Id}")]
+    public async Task<IActionResult> UpdateImageAsync(long Id, IFormFile Image)
+        => Ok(await _bookService.UpdateBookImageAsync(Id, Image));
+
+    [HttpPut("source/{Id}")]
+    public async Task<IActionResult> UpdateSourceAsync(long Id, IFormFile Source)
+        => Ok(await _bookService.UpdateBookSourceAsync(Id, Source));
+
+    [HttpPut("audio/{Id}")]
+    public async Task<IActionResult> UpdateAudioAsync(long Id, IFormFile Audio)
+        => Ok(await _bookService.UpdateBookAudioAsync(Id, Audio));
 }
