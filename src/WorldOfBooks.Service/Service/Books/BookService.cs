@@ -75,16 +75,33 @@ public class BookService : IBookService
     public async Task<IEnumerable<BookResult>> GetAllAsync()
     {
         var existBook = _bookRepository.SelectAll();
+        List<BookResult> emptyList = new  List<BookResult>();
 
-        return _mapper.Map<IEnumerable<BookResult>>(existBook);
+        foreach (var book in existBook)
+        {
+            if (book.AudioPath  != null)
+            {
+                var result = _mapper.Map<BookResult>(book);
+                result.Audio = true;
+                emptyList.Add(result);
+            }
+        }
+         return emptyList;
     }
 
     public async Task<BookResult> GetByIdAsync(long id)
     {
         var existBook = await _bookRepository.SelectAsync(book => book.Id.Equals(id))
           ?? throw new AuthorNotFoundException();
+        if (existBook.AudioPath is not null)
+        {
+            var result =  _mapper.Map<BookResult>(existBook);
+            result.Audio = true; 
 
-        return _mapper.Map<BookResult>(existBook);
+            return result;
+        }
+        else
+            return _mapper.Map<BookResult>(existBook);
     }
 
     public async Task<BookResult> UpdateAsync(long id, BookUpdateDto dto)
@@ -169,5 +186,21 @@ public class BookService : IBookService
         await _bookRepository.SaveAsync();
 
         return _mapper.Map<BookResult>(existBook);
+    }
+
+    public async Task<BookSourceResult> GetByIdSourceAsync(long id)
+    {
+        var existBook = await _bookRepository.SelectAsync(book => book.Id.Equals(id))
+         ?? throw new AuthorNotFoundException();
+
+        return _mapper.Map<BookSourceResult>(existBook);
+    }
+
+    public async Task<BookAudioResult> GetByIdAudioAsync(long id)
+    {
+        var existBook = await _bookRepository.SelectAsync(book => book.Id.Equals(id))
+        ?? throw new AuthorNotFoundException();
+
+        return _mapper.Map<BookAudioResult>(existBook);
     }
 }

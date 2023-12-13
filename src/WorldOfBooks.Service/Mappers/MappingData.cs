@@ -37,11 +37,12 @@ public class MappingData : Profile
         CreateMap<Author, AuthorUpdateDto>().ReverseMap();
 
         CreateMap<Book, BookResult>().ReverseMap();
+        CreateMap<Book, BookAudioResult>().ReverseMap();
+        CreateMap<Book, BookSourceResult>().ReverseMap();
         CreateMap<Book, BookCreateDto>().ReverseMap();
         CreateMap<Book, BookUpdateDto>().ReverseMap();
 
         CreateMap<Comment, CommentResultDto>().ReverseMap();
         CreateMap<Comment, CommentCreationDto>().ReverseMap();
-        CreateMap<Comment, CommentUpdateDto>().ReverseMap();
     }
 }

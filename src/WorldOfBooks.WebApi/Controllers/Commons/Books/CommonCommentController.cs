@@ -4,7 +4,8 @@ using WorldOfBooks.Service.Interfaces.Books;
 using WorldOfBooks.Service.Service.Books;
 
 namespace WorldOfBooks.WebApi.Controllers.Commons.Books;
-
+[Route("api/common/book/comment")]
+[ApiController]
 public class CommonCommentController : BaseController
 {
     private readonly ICommentService _commentService;
@@ -18,7 +19,7 @@ public class CommonCommentController : BaseController
         => Ok(await _commentService.GetByIdAsync(Id));
 
 
-    [HttpGet("by-bookId")]
+    [HttpGet("all/{bookId}")]
     public async Task<IActionResult> GetAllAsync(long bookId)
         => Ok(await _commentService.GetByBookIdsync(bookId));
 }
