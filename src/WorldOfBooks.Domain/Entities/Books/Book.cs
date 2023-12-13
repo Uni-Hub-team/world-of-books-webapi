@@ -13,11 +13,14 @@ public class Book : Auditable
     public string AudioPath { get; set; } = string.Empty;
 
     public long CategoryId { get; set; }
-    public Category? Category { get; set; }
+    public Category Category { get; set; }
 
     public long SubCategoryId { get; set; }
-    public SubCategory? SubCategory { get; set; }
+    public SubCategory SubCategory { get; set; }
 
     public long AuthorId { get; set; }
-    public Author? Author { get; set; }
+    public Author Author { get; set; }
+
+    public ICollection<Read> Reads { get; set; }
+    public ICollection<BookStar> Categories { get; set; }
 }

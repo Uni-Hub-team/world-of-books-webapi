@@ -41,6 +41,7 @@ app.UseExceptionHandler(c => c.Run(async context =>
     var response = new { error = exception.Message };
     await context.Response.WriteAsJsonAsync(response);
 }));
+
 app.ApplyMigrations();
 
 app.InitAccessor();

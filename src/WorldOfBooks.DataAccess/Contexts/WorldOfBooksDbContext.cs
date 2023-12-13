@@ -9,19 +9,18 @@ namespace WorldOfBooks.DataAccess.Contexts;
 public class WorldOfBooksDbContext : DbContext
 {
     public WorldOfBooksDbContext(DbContextOptions<WorldOfBooksDbContext> options) : base(options)
-    {
-    }
+    { }
 
-    DbSet<User> Users { get; set; }
-    DbSet<Author> Author { get; set; }
-    DbSet<Book> Books { get; set; }
-    DbSet<BookStar> BookStars { get; set; }
-    DbSet<Comment> Comments { get; set; }
-    DbSet<Read> Reads { get; set; }
-    DbSet<View> Views { get; set; }
-    DbSet<Category> Category { get; set; }
-    DbSet<SubCategory> SubCategory { get; set; }
-    DbSet<UserSortedBook> UserSortedBook { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Author> Author { get; set; }
+    public DbSet<Book> Books { get; set; }
+    public DbSet<BookStar> BookStars { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+    public DbSet<Read> Reads { get; set; }
+    public DbSet<View> Views { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<SubCategory> SubCategories { get; set; }
+    public DbSet<UserSortedBook> UserSortedBooks { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

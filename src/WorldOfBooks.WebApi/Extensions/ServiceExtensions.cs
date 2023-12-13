@@ -12,6 +12,8 @@ using WorldOfBooks.Service.Service.Authors;
 using WorldOfBooks.Service.Service.Common;
 using WorldOfBooks.Service.Service.Users;
 using WorldOfBooks.WebApi.Middleware;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace WorldOfBooks.WebApi.Extensions;
 
@@ -20,12 +22,16 @@ public static class ServiceExtensions
 {
     public static void AddCustomServices(this IServiceCollection services)
     {
-
         services.AddControllers(options =>
         options.Conventions.Add(new RouteTokenTransformerConvention(new SlugParameterTransformer())));
         //Auto mapping Dependency Injection
         services.AddAutoMapper(typeof(MappingData));
 
+        //Json serializer
+        services.AddControllers().AddNewtonsoftJson(o =>
+        {
+            o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        });
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
