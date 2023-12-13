@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using WorldOfBooks.DataAccess.Contexts;
 using WorldOfBooks.WebApi.Extensions;
@@ -22,6 +22,10 @@ builder.Services.AddCustomServices();
 builder.ConfigureCORSPolicy();
 builder.ConfigureSwaggerAuth();
 builder.ConfigureJwtAuth();
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 1000 * 1024 * 1024; ; // Set your limit here
+});
 
 var app = builder.Build();
 

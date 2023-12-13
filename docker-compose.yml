@@ -37,5 +37,3 @@ networks:
   db_bridge:
     driver: bridge
  
-
-  
