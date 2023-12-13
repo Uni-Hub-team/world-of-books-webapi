@@ -54,14 +54,15 @@ public class SubCategoryService : ISubCategoryService
 
     public async Task<IEnumerable<SubCategoryResultDto>> GetAllAsync()
     {
-        var categories = _subCategoryRepository.SelectAll();
+        var categories = _subCategoryRepository.SelectAll(includes: new[] { "Category" });
 
         return _mapper.Map<IEnumerable<SubCategoryResultDto>>(categories);
     }
 
     public async Task<SubCategoryResultDto> GetByIdAsync(long id)
     {
-        var existSubCategory = await _subCategoryRepository.SelectAsync(subCategory => subCategory.Id.Equals(id))
+        var existSubCategory = await _subCategoryRepository.SelectAsync(
+            subCategory => subCategory.Id.Equals(id), includes: new[] { "Category" })
           ?? throw new SubCategoryNotFoundException();
 
         return _mapper.Map<SubCategoryResultDto>(existSubCategory);
