@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using System.IO;
 using WorldOfBooks.Persistence.Helpers;
 using WorldOfBooks.Service.Interfaces.Common;
 
@@ -10,9 +9,6 @@ public class FileService : IFileService
 {
     private readonly string MEDIA = "Media";
     private readonly string BOOKS = "Books";
-    private readonly string USERS = "Users";
-    private readonly string AUDIOS = "Audios";
-    private readonly string SOURCE = "Source";
     private readonly string IMAGES = "Images";
     private readonly string ROOTPATH;
 
@@ -74,7 +70,7 @@ public class FileService : IFileService
     public async Task<string> UploadAudioAsync(IFormFile audio, string rootPath)
     {
         string newAudioName = MediaHelper.MakeAudioName(audio.FileName);
-        string subPath = Path.Combine(MEDIA, BOOKS, AUDIOS, rootPath, newAudioName);
+        string subPath = Path.Combine(MEDIA, BOOKS, rootPath, newAudioName);
         string path = Path.Combine(ROOTPATH, subPath);
         var stream = new FileStream(path, FileMode.Create);
         await audio.CopyToAsync(stream);
@@ -86,7 +82,7 @@ public class FileService : IFileService
     public async Task<string> UploadBookAsync(IFormFile book, string rootPath)
     {
         string newBookName = MediaHelper.MakeBookName(book.FileName);
-        string subPath = Path.Combine(MEDIA, BOOKS, SOURCE, rootPath, newBookName);
+        string subPath = Path.Combine(MEDIA, BOOKS, rootPath, newBookName);
         string path = Path.Combine(ROOTPATH, subPath);
         var stream = new FileStream(path, FileMode.CreateNew);
         await book.CopyToAsync(stream);

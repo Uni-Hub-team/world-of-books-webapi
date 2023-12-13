@@ -37,21 +37,13 @@ public class BookService : IBookService
             throw new AuthorAlreadyExistsException();
 
         var mappedBook = _mapper.Map<Book>(dto);
-        try
-        {
-        var bookSource = await _fileService.UploadBookAsync(dto.Source, SOURCE);
-
-        }
-        catch (Exception ex)
-        {
-            throw new Exception();
-        }
         var bookImage = await _fileService.UploadImageAsync(dto.Image, BOOKS);
         var bookAudio = await _fileService.UploadAudioAsync(dto.Audio!, AUDIOS);
+        var bookSource = await _fileService.UploadBookAsync(dto.Source, SOURCE);
 
         mappedBook.AudioPath = bookAudio;
         mappedBook.ImagePath = bookImage;
-       // mappedBook.SourcePath = bookSource;
+        mappedBook.SourcePath = bookSource;
 
         mappedBook.CreatedAt = TimeHelper.GetDateTime();
 
