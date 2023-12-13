@@ -1,0 +1,39 @@
+version: '3.4'
+
+services:
+
+  backend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: world-of-books-backend-container
+    image: world-of-books-backend-image:latest
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - database
+
+    ports:
+      - 8585:80
+      - 4545:443
+    networks:
+      - db_bridge
+
+  database:
+    build: 
+      context: .
+      dockerfile: ./apps/postgres/Dockerfile
+    container_name: world-of-books-database-container
+    hostname: world-of-books-database-host
+    image: world-of-books-database-image
+    restart: always
+    ports:
+      - 5435:5432
+    networks:
+      - db_bridge
+    
+networks:
+  db_bridge:
+    driver: bridge
+ 
