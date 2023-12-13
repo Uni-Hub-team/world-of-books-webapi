@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using WorldOfBooks.Application.Exceptions.Authors;
 using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.Domain.Entities.Authors;
@@ -37,7 +36,7 @@ public class AuthorService : IAuthorService
 
         var mappedAuthor = _mapper.Map<Author>(dto);
 
-        var Img = await _fileService.UploadImageAsync(dto.Images, USERS);
+        var Img = await _fileService.UploadImageAsync(dto.Images!, USERS);
         mappedAuthor.ImagePath = Img;
         mappedAuthor.CreatedAt = TimeHelper.GetDateTime();
 
@@ -95,7 +94,7 @@ public class AuthorService : IAuthorService
 
     public async Task<AuthorResult> UpdateImageAsync(long id, AuthorImageUpdateDto dto)
     {
-        var existAuthor = await _authorRepository.SelectAsync(category => category.Id.Equals(id))
+        var existAuthor = await _authorRepository.SelectAsync(author => author.Id.Equals(id))
             ?? throw new AuthorNotFoundException();
 
         var result = await _fileService.DeleteImageAsync(existAuthor.ImagePath);

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace WorldOfBooks.Persistence.Dtos.Authors;
+﻿namespace WorldOfBooks.Persistence.Dtos.Authors;
 
 public class AuthorUpdateDto
 {

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using WorldOfBooks.Persistence.Dtos.Authors;
+﻿using WorldOfBooks.Persistence.Dtos.Authors;
 using WorldOfBooks.Persistence.ViewModels.Authors;
 
 namespace WorldOfBooks.Service.Interfaces.Authors;

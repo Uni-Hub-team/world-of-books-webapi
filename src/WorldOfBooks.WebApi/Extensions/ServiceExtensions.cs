@@ -3,12 +3,14 @@ using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.DataAccess.Repositories;
 using WorldOfBooks.Service.Interfaces.Auth;
 using WorldOfBooks.Service.Interfaces.Authors;
+using WorldOfBooks.Service.Interfaces.Books;
 using WorldOfBooks.Service.Interfaces.Categories;
 using WorldOfBooks.Service.Interfaces.Common;
 using WorldOfBooks.Service.Interfaces.User;
 using WorldOfBooks.Service.Mappers;
 using WorldOfBooks.Service.Service.Auth;
 using WorldOfBooks.Service.Service.Authors;
+using WorldOfBooks.Service.Service.Books;
 using WorldOfBooks.Service.Service.Common;
 using WorldOfBooks.Service.Service.Users;
 using WorldOfBooks.WebApi.Middleware;
@@ -42,6 +44,7 @@ public static class ServiceExtensions
         services.AddScoped<ISubCategoryService, SubCategoryService>();
         services.AddScoped<IAuthorService, AuthorService>();
         services.AddScoped<IFileService, FileService>();
+        services.AddScoped<IBookService, BookService>();
 
         #endregion
     }
