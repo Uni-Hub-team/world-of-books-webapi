@@ -18,7 +18,7 @@ public class CommonCommentController : BaseController
         => Ok(await _commentService.GetByIdAsync(Id));
 
 
-    [HttpGet("all")]
-    public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams pagination)
-        => Ok(await _commentService.GetAllAsync(pagination));
+    [HttpGet("by-bookId")]
+    public async Task<IActionResult> GetAllAsync(long bookId)
+        => Ok(await _commentService.GetByBookIdsync(bookId));
 }

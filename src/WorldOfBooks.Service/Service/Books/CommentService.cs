@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using WorldOfBooks.Application.Exceptions.Authors;
 using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.Domain.Configurations;
@@ -62,10 +63,11 @@ public class CommentService : ICommentService
         return _mapper.Map<CommentResultDto>(existComment);
     }
 
-    public async Task<IEnumerable<CommentResultDto>> GetAllAsync(PaginationParams pagination)
+    public async Task<IEnumerable<CommentResultDto>> GetByBookIdsync(long bookId)
     {
-        var comments = _commentRepository.SelectAll();
-        var result = comments.ToPagedList(pagination);
-        return _mapper.Map<IEnumerable<CommentResultDto>>(result);
+        var comments = await _commentRepository
+            .SelectAll(comment => comment.BookId.Equals(bookId)).ToListAsync();
+
+        return _mapper.Map<IEnumerable<CommentResultDto>>(comments);
     }
 }

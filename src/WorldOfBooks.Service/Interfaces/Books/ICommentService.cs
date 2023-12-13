@@ -8,5 +8,5 @@ public interface ICommentService
     Task<CommentResultDto> CreateAsync(CommentCreationDto dto);
     Task<bool> DeleteAsync(long id);
     Task<CommentResultDto> GetByIdAsync(long id);
-    Task<IEnumerable<CommentResultDto>> GetAllAsync(PaginationParams pagination);
+    Task<IEnumerable<CommentResultDto>> GetByBookIdsync(long bookId);
 }
