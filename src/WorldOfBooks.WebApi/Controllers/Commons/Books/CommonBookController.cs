@@ -3,7 +3,7 @@ using WorldOfBooks.Service.Interfaces.Books;
 
 namespace WorldOfBooks.WebApi.Controllers.Commons.Books;
 
-[Route("api/admin/book")]
+[Route("api/common/book")]
 [ApiController]
 public class CommonBookController : ControllerBase
 {

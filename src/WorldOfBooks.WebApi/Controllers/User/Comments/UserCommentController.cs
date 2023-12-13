@@ -5,7 +5,8 @@ using WorldOfBooks.Service.Interfaces.Books;
 using WorldOfBooks.Service.Service.Books;
 
 namespace WorldOfBooks.WebApi.Controllers.User.Comments;
-
+[Route("api/user/book/comment")]
+[ApiController]
 public class UserCommentController : BaseUserController
 {
     private readonly ICommentService _commentService;
