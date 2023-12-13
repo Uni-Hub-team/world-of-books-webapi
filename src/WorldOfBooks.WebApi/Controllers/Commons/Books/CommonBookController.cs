@@ -17,4 +17,8 @@ public class CommonBookController : ControllerBase
     [HttpGet("all")]
     public async Task<IActionResult> GetAllAsync()
         => Ok(await _bookService.GetAllAsync());
+
+    [HttpGet("{Id}")]
+    public async Task<IActionResult> GetByIdAsync(long Id)
+        => Ok(await _bookService.GetByIdAsync(Id));
 }
