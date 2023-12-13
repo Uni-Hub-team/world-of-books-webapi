@@ -47,14 +47,15 @@ public class CategoryService : ICategoryService
 
     public async Task<IEnumerable<CategoryResultDto>> GetAllAsync()
     {
-        var categories = _categoryRepository.SelectAll();
+        var categories = _categoryRepository.SelectAll(includes: new[] { "SubCategories" });
 
         return _mapper.Map<IEnumerable<CategoryResultDto>>(categories);
     }
 
     public async Task<CategoryResultDto> GetByIdAsync(long id)
     {
-        var existCategory = await _categoryRepository.SelectAsync(category => category.Id.Equals(id))
+        var existCategory = await _categoryRepository.SelectAsync(
+            category => category.Id.Equals(id), includes: new[] { "SubCategories" })
            ?? throw new CategoryNotFoundException();
 
         return _mapper.Map<CategoryResultDto>(existCategory);
@@ -81,7 +82,7 @@ public class CategoryService : ICategoryService
             ?? throw new CategoryNotFoundException();
 
         existCategory.Id = id;
-        existCategory.status = status;
+        existCategory.Status = status;
         existCategory.UpdatedAt = TimeHelper.GetDateTime();
 
         _categoryRepository.Update(existCategory);
