@@ -2,7 +2,9 @@
 using WorldOfBooks.Application.Exceptions.Authors;
 using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.Domain.Entities.Books;
+using WorldOfBooks.Domain.Entities.Users;
 using WorldOfBooks.Persistence.Dtos.Books;
+using WorldOfBooks.Persistence.ViewModels.Authors;
 using WorldOfBooks.Persistence.ViewModels.Books;
 using WorldOfBooks.Service.Commons.Helpers;
 using WorldOfBooks.Service.Interfaces.Books;
@@ -16,7 +18,7 @@ public class BookService : IBookService
     private IRepository<Book> _bookRepository;
     private IFileService _fileService;
 
-    private readonly string BOOKS = "Books";
+    private readonly string BOOKimg = "Books";
     private readonly string SOURCE = "Source";
     private readonly string AUDIOS = "Audios";
 
@@ -37,7 +39,7 @@ public class BookService : IBookService
             throw new AuthorAlreadyExistsException();
 
         var mappedBook = _mapper.Map<Book>(dto);
-        var bookImage = await _fileService.UploadImageAsync(dto.Image, BOOKS);
+        var bookImage = await _fileService.UploadImageAsync(dto.Image, BOOKimg);
         var bookAudio = await _fileService.UploadAudioAsync(dto.Audio!, AUDIOS);
         var bookSource = await _fileService.UploadBookAsync(dto.Source, SOURCE);
 
@@ -53,25 +55,82 @@ public class BookService : IBookService
         return _mapper.Map<BookResult>(mappedBook);
     }
 
-    public Task<bool> DeleteAsync(long id)
+    public async Task<bool> DeleteAsync(long id)
     {
-        throw new NotImplementedException();
+        var existBook = await _bookRepository.SelectAsync(author => author.Id.Equals(id))
+           ?? throw new AuthorNotFoundException();
+
+        var resultImg = await _fileService.DeleteImageAsync(existBook.ImagePath);
+        var resultAudi = await _fileService.DeleteAudioAsync(existBook.AudioPath);
+        var resultSource = await _fileService.DeleteBookAsync(existBook.SourcePath);
+
+
+        _bookRepository.Delete(existBook);
+        await _bookRepository.SaveAsync();
+
+        return true;
     }
 
     public async Task<IEnumerable<BookResult>> GetAllAsync()
     {
-        var existAuthors = _bookRepository.SelectAll();
+        var existBook = _bookRepository.SelectAll();
 
-        return _mapper.Map<IEnumerable<BookResult>>(existAuthors);
+        return _mapper.Map<IEnumerable<BookResult>>(existBook);
     }
 
-    public Task<BookResult> GetByIdAsync(long id)
+    public async Task<BookResult> GetByIdAsync(long id)
     {
-        throw new NotImplementedException();
+        var existBook = await _bookRepository.SelectAsync(book => book.Id.Equals(id))
+          ?? throw new AuthorNotFoundException();
+
+        return _mapper.Map<BookResult>(existBook);
     }
 
-    public Task<BookResult> UpdateAsync(long id, BookUpdateDto dto)
+    public async Task<BookResult> UpdateAsync(long id, BookUpdateDto dto)
     {
-        throw new NotImplementedException();
+        var existBook = await _bookRepository.SelectAsync(book => book.Id.Equals(id))
+             ?? throw new AuthorNotFoundException();
+
+        var mappedAuthor = _mapper.Map(dto, existBook);
+        mappedAuthor.Id = id;
+
+        if (dto.Source is not null)
+        {
+            var result = await _fileService.DeleteBookAsync(existBook.SourcePath);
+
+            if (result)
+            {
+                var source = await _fileService.UploadBookAsync(dto.Source!, SOURCE);
+                existBook.SourcePath = source;
+            }
+        }
+        else if (dto.Image is not null)
+        {
+            var result = await _fileService.DeleteImageAsync(existBook.ImagePath);
+
+            if (result)
+            {
+                var Img = await _fileService.UploadImageAsync(dto.Image!, BOOKimg);
+                existBook.SourcePath = Img;
+            }
+        }
+        else if (dto.Audio is not null)
+        {
+            var result = await _fileService.DeleteAudioAsync(existBook.AudioPath);
+
+            if (result)
+            {
+                var audio = await _fileService.UploadAudioAsync(dto.Audio, AUDIOS);
+                existBook.AudioPath = audio;
+            }
+        }
+
+        
+        mappedAuthor.UpdatedAt = TimeHelper.GetDateTime();
+
+        _bookRepository.Update(mappedAuthor);
+        await _bookRepository.SaveAsync();
+
+        return _mapper.Map<BookResult>(mappedAuthor);
     }
 }
