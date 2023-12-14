@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Http;
 using WorldOfBooks.Application.Exceptions.Authors;
 using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.Domain.Entities.Books;
-using WorldOfBooks.Domain.Entities.Users;
 using WorldOfBooks.Persistence.Dtos.Books;
-using WorldOfBooks.Persistence.ViewModels.Authors;
 using WorldOfBooks.Persistence.ViewModels.Books;
 using WorldOfBooks.Service.Commons.Helpers;
 using WorldOfBooks.Service.Interfaces.Books;
@@ -75,18 +73,18 @@ public class BookService : IBookService
     public async Task<IEnumerable<BookResult>> GetAllAsync()
     {
         var existBook = _bookRepository.SelectAll();
-        List<BookResult> emptyList = new  List<BookResult>();
+        List<BookResult> emptyList = new List<BookResult>();
 
         foreach (var book in existBook)
         {
-            if (book.AudioPath  != null)
+            if (book.AudioPath != null)
             {
                 var result = _mapper.Map<BookResult>(book);
                 result.Audio = true;
                 emptyList.Add(result);
             }
         }
-         return emptyList;
+        return emptyList;
     }
 
     public async Task<BookResult> GetByIdAsync(long id)
@@ -95,8 +93,8 @@ public class BookService : IBookService
           ?? throw new AuthorNotFoundException();
         if (existBook.AudioPath is not null)
         {
-            var result =  _mapper.Map<BookResult>(existBook);
-            result.Audio = true; 
+            var result = _mapper.Map<BookResult>(existBook);
+            result.Audio = true;
 
             return result;
         }
