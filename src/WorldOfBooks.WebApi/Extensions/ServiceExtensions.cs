@@ -40,8 +40,6 @@ public static class ServiceExtensions
         services.AddHttpContextAccessor();
 
         #region Services
-
-
         //Auth
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
@@ -51,7 +49,7 @@ public static class ServiceExtensions
         services.AddScoped<IAuthorService, AuthorService>();
         services.AddScoped<IFileService, FileService>();
         services.AddScoped<IBookService, BookService>();
-
+        services.AddScoped<IBookStarService, BookStarService>();
         #endregion
     }
 }
