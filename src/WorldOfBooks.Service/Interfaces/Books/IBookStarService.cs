@@ -6,8 +6,7 @@ public interface IBookStarService
 {
     Task<BookStarResultDto> CreateAsync(BookStarCreationDto dto);
     Task<BookStarResultDto> UpdateAsync(long id, BookStarUpdateDto dto);
-    Task<BookStarResultDto> GetByIdAsync(long id);
-    Task<BookStarResultDto> GetByBookIdAsync(long bookId);
-    Task<BookStarResultDto> GetByUserIdAsync(long userId);
+    Task<IEnumerable<BookStarResultDto>> GetByUserIdAsync(long userId);
+    Task<IEnumerable<BookStarResultDto>> GetByBookIdAsync(long bookId);
     Task<IEnumerable<BookStarResultDto>> GetAllAsync();
 }

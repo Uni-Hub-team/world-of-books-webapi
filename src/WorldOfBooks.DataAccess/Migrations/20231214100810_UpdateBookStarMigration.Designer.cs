@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WorldOfBooks.DataAccess.Contexts;
@@ -11,9 +12,11 @@ using WorldOfBooks.DataAccess.Contexts;
 namespace WorldOfBooks.DataAccess.Migrations
 {
     [DbContext(typeof(WorldOfBooksDbContext))]
-    partial class WorldOfBooksDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231214100810_UpdateBookStarMigration")]
+    partial class UpdateBookStarMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,8 +122,8 @@ namespace WorldOfBooks.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<double>("AverageStars")
-                        .HasColumnType("double precision");
+                    b.Property<float>("AvverageStars")
+                        .HasColumnType("real");
 
                     b.Property<long>("BookId")
                         .HasColumnType("bigint");

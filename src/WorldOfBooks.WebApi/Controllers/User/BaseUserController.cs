@@ -5,6 +5,6 @@ namespace WorldOfBooks.WebApi.Controllers.User;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = "User")]
+//[Authorize(Roles = "User")]
 public class BaseUserController : ControllerBase
 { }

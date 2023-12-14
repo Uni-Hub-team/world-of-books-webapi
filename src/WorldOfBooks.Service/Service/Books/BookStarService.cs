@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using WorldOfBooks.Application.Exceptions.Authors;
 using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.Domain.Entities.Books;
@@ -43,7 +38,7 @@ public class BookStarService : IBookStarService
         var mappedStar = _mapper.Map<BookStar>(dto);
 
         var result = await CountOfStarsInBookAsync(existBook.Id);
-        mappedStar.AvverageStars = (result.Star + dto.Star)/(result.Count+1);
+        mappedStar.AverageStars = (double)(result.Star + dto.Star) / (double)(result.Count + 1);
         await _bookStarRepository.AddAsync(mappedStar);
         await _bookStarRepository.SaveAsync();
 
@@ -63,7 +58,7 @@ public class BookStarService : IBookStarService
 
         var mappedStar = _mapper.Map(dto, existStar);
         var result = await CountOfStarsInBookAsync(existBook.Id);
-        mappedStar.AvverageStars = (result.Star + dto.Star) / (result.Count + 1);
+        mappedStar.AverageStars = (double)(result.Star + dto.Star - existStar.Star) / (double)result.Count;
 
         _bookStarRepository.Update(mappedStar);
         await _bookStarRepository.SaveAsync();
@@ -71,27 +66,30 @@ public class BookStarService : IBookStarService
         return _mapper.Map<BookStarResultDto>(mappedStar);
     }
 
-    public async Task<BookStarResultDto> GetByBookIdAsync(long bookId)
+    public async Task<IEnumerable<BookStarResultDto>> GetByBookIdAsync(long bookId)
     {
-        var existBook= await _bookRepository.SelectAsync(book => book.Id.Equals(bookId))
-            ?? throw new AuthorNotFoundException();
+        var existStars = await _bookStarRepository.SelectAll(
+            book => book.BookId.Equals(bookId)).ToListAsync();
+        if (!existStars.Any())
+            throw new AuthorNotFoundException();
 
-        return _mapper.Map<BookStarResultDto>(existBook);
+        return _mapper.Map<IEnumerable<BookStarResultDto>>(existStars);
     }
 
-    public Task<BookStarResultDto> GetByIdAsync(long id)
+    public async Task<IEnumerable<BookStarResultDto>> GetByUserIdAsync(long userId)
     {
-        throw new NotImplementedException();
+        var existStars = await _bookStarRepository.SelectAll(
+            book => book.UserId.Equals(userId)).ToListAsync();
+        if (!existStars.Any())
+            throw new AuthorNotFoundException();
+
+        return _mapper.Map<IEnumerable<BookStarResultDto>>(existStars);
     }
 
-    public Task<BookStarResultDto> GetByUserIdAsync(long userId)
+    public async Task<IEnumerable<BookStarResultDto>> GetAllAsync()
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<BookStarResultDto>> GetAllAsync()
-    {
-        throw new NotImplementedException();
+        var existStars = await _bookStarRepository.SelectAll().ToListAsync();
+        return _mapper.Map<IEnumerable<BookStarResultDto>>(existStars);
     }
 
     private async Task<(int Star, int Count)> CountOfStarsInBookAsync(long bookId)
@@ -104,7 +102,7 @@ public class BookStarService : IBookStarService
             return (Star: 0, Count: 0);
 
         int stars = 0;
-        foreach(var  bookStar in existBook.BookStars)
+        foreach (var bookStar in existBook.BookStars)
         {
             stars += bookStar.Star;
         }
