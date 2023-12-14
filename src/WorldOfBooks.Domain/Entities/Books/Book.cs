@@ -22,5 +22,5 @@ public class Book : Auditable
     public Author Author { get; set; }
 
     public ICollection<Read> Reads { get; set; }
-    public ICollection<BookStar> Categories { get; set; }
+    public ICollection<BookStar> BookStars { get; set; }
 }
