@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using WorldOfBooks.Application.Exceptions.Authors;
 using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.Domain.Entities.Books;
@@ -74,16 +75,33 @@ public class BookService : IBookService
     public async Task<IEnumerable<BookResult>> GetAllAsync()
     {
         var existBook = _bookRepository.SelectAll();
+        List<BookResult> emptyList = new  List<BookResult>();
 
-        return _mapper.Map<IEnumerable<BookResult>>(existBook);
+        foreach (var book in existBook)
+        {
+            if (book.AudioPath  != null)
+            {
+                var result = _mapper.Map<BookResult>(book);
+                result.Audio = true;
+                emptyList.Add(result);
+            }
+        }
+         return emptyList;
     }
 
     public async Task<BookResult> GetByIdAsync(long id)
     {
         var existBook = await _bookRepository.SelectAsync(book => book.Id.Equals(id))
           ?? throw new AuthorNotFoundException();
+        if (existBook.AudioPath is not null)
+        {
+            var result =  _mapper.Map<BookResult>(existBook);
+            result.Audio = true; 
 
-        return _mapper.Map<BookResult>(existBook);
+            return result;
+        }
+        else
+            return _mapper.Map<BookResult>(existBook);
     }
 
     public async Task<BookResult> UpdateAsync(long id, BookUpdateDto dto)
@@ -93,44 +111,96 @@ public class BookService : IBookService
 
         var mappedAuthor = _mapper.Map(dto, existBook);
         mappedAuthor.Id = id;
-
-        if (dto.Source is not null)
-        {
-            var result = await _fileService.DeleteBookAsync(existBook.SourcePath);
-
-            if (result)
-            {
-                var source = await _fileService.UploadBookAsync(dto.Source!, SOURCE);
-                existBook.SourcePath = source;
-            }
-        }
-        else if (dto.Image is not null)
-        {
-            var result = await _fileService.DeleteImageAsync(existBook.ImagePath);
-
-            if (result)
-            {
-                var Img = await _fileService.UploadImageAsync(dto.Image!, BOOKimg);
-                existBook.SourcePath = Img;
-            }
-        }
-        else if (dto.Audio is not null)
-        {
-            var result = await _fileService.DeleteAudioAsync(existBook.AudioPath);
-
-            if (result)
-            {
-                var audio = await _fileService.UploadAudioAsync(dto.Audio, AUDIOS);
-                existBook.AudioPath = audio;
-            }
-        }
-
-        
         mappedAuthor.UpdatedAt = TimeHelper.GetDateTime();
 
         _bookRepository.Update(mappedAuthor);
         await _bookRepository.SaveAsync();
 
         return _mapper.Map<BookResult>(mappedAuthor);
+    }
+
+    public async Task<BookResult> UpdateBookImageAsync(long BookId, IFormFile image)
+    {
+        var existBook = await _bookRepository.SelectAsync(book => book.Id.Equals(BookId))
+            ?? throw new AuthorNotFoundException();
+
+        if (image is not null)
+        {
+            var result = await _fileService.DeleteImageAsync(existBook.ImagePath);
+
+            if (result)
+            {
+                var Img = await _fileService.UploadImageAsync(image!, BOOKimg);
+                existBook.SourcePath = Img;
+            }
+        }
+
+        existBook.UpdatedAt = TimeHelper.GetDateTime();
+        _bookRepository.Update(existBook);
+        await _bookRepository.SaveAsync();
+
+        return _mapper.Map<BookResult>(existBook);
+    }
+
+    public async Task<BookResult> UpdateBookSourceAsync(long BookId, IFormFile source)
+    {
+        var existBook = await _bookRepository.SelectAsync(book => book.Id.Equals(BookId))
+            ?? throw new AuthorNotFoundException();
+
+        if (source is not null)
+        {
+            var result = await _fileService.DeleteBookAsync(existBook.SourcePath);
+
+            if (result)
+            {
+                var sourceResult = await _fileService.UploadBookAsync(source!, SOURCE);
+                existBook.SourcePath = sourceResult;
+            }
+        }
+
+        existBook.UpdatedAt = TimeHelper.GetDateTime();
+        _bookRepository.Update(existBook);
+        await _bookRepository.SaveAsync();
+
+        return _mapper.Map<BookResult>(existBook);
+    }
+
+    public async Task<BookResult> UpdateBookAudioAsync(long BookId, IFormFile audio)
+    {
+        var existBook = await _bookRepository.SelectAsync(book => book.Id.Equals(BookId))
+            ?? throw new AuthorNotFoundException();
+
+        if (audio is not null)
+        {
+            var result = await _fileService.DeleteAudioAsync(existBook.AudioPath);
+
+            if (result)
+            {
+                var audioResult = await _fileService.UploadAudioAsync(audio, AUDIOS);
+                existBook.AudioPath = audioResult;
+            }
+        }
+
+        existBook.UpdatedAt = TimeHelper.GetDateTime();
+        _bookRepository.Update(existBook);
+        await _bookRepository.SaveAsync();
+
+        return _mapper.Map<BookResult>(existBook);
+    }
+
+    public async Task<BookSourceResult> GetByIdSourceAsync(long id)
+    {
+        var existBook = await _bookRepository.SelectAsync(book => book.Id.Equals(id))
+         ?? throw new AuthorNotFoundException();
+
+        return _mapper.Map<BookSourceResult>(existBook);
+    }
+
+    public async Task<BookAudioResult> GetByIdAudioAsync(long id)
+    {
+        var existBook = await _bookRepository.SelectAsync(book => book.Id.Equals(id))
+        ?? throw new AuthorNotFoundException();
+
+        return _mapper.Map<BookAudioResult>(existBook);
     }
 }

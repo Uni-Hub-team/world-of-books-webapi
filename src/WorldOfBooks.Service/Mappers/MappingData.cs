@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using WorldOfBooks.Domain.Entities.Authors;
 using WorldOfBooks.Domain.Entities.Books;
 using WorldOfBooks.Domain.Entities.Categories;
@@ -6,6 +7,7 @@ using WorldOfBooks.Domain.Entities.Users;
 using WorldOfBooks.Persistence.Dtos.Authors;
 using WorldOfBooks.Persistence.Dtos.Books;
 using WorldOfBooks.Persistence.Dtos.Categories;
+using WorldOfBooks.Persistence.Dtos.Comments;
 using WorldOfBooks.Persistence.Dtos.User;
 using WorldOfBooks.Persistence.ViewModels.Authors;
 using WorldOfBooks.Persistence.ViewModels.Books;
@@ -35,7 +37,12 @@ public class MappingData : Profile
         CreateMap<Author, AuthorUpdateDto>().ReverseMap();
 
         CreateMap<Book, BookResult>().ReverseMap();
+        CreateMap<Book, BookAudioResult>().ReverseMap();
+        CreateMap<Book, BookSourceResult>().ReverseMap();
         CreateMap<Book, BookCreateDto>().ReverseMap();
         CreateMap<Book, BookUpdateDto>().ReverseMap();
+
+        CreateMap<Comment, CommentResultDto>().ReverseMap();
+        CreateMap<Comment, CommentCreationDto>().ReverseMap();
     }
 }

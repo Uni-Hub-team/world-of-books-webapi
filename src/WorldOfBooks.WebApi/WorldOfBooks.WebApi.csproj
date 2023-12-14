@@ -26,8 +26,4 @@
     <ProjectReference Include="..\WorldOfBooks.Service\WorldOfBooks.Service.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\User\" />
-  </ItemGroup>
-
 </Project>
