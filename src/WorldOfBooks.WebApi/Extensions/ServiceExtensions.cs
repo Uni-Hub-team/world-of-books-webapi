@@ -51,6 +51,7 @@ public static class ServiceExtensions
         services.AddScoped<IAuthorService, AuthorService>();
         services.AddScoped<IFileService, FileService>();
         services.AddScoped<IBookService, BookService>();
+        services.AddScoped<IIdentityService, IdentityService>();
 
         #endregion
     }
