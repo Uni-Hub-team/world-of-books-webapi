@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WorldOfBooks.Domain.Enums;
 using WorldOfBooks.Persistence.Dtos.Books;
-using WorldOfBooks.Persistence.Dtos.Categories;
 using WorldOfBooks.Service.Interfaces.Books;
 
 namespace WorldOfBooks.WebApi.Controllers.User.Books;
 
+
+[Route("api/user/book-stars")]
+[ApiController]
 public class UserBookStarsContoller : BaseUserController
 {
     private readonly IBookStarService _bookStarService;
@@ -33,4 +34,4 @@ public class UserBookStarsContoller : BaseUserController
     [HttpGet("all")]
     public async Task<IActionResult> GetAllAsync()
         => Ok(await _bookStarService.GetAllAsync());
-}  
+}

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WorldOfBooks.Persistence.Dtos.Books;
 using WorldOfBooks.Service.Interfaces.Books;
 

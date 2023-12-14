@@ -69,7 +69,8 @@ public class BookStarService : IBookStarService
     public async Task<IEnumerable<BookStarResultDto>> GetByBookIdAsync(long bookId)
     {
         var existStars = await _bookStarRepository.SelectAll(
-            book => book.BookId.Equals(bookId)).ToListAsync();
+            book => book.BookId.Equals(bookId), includes: new[] { "Book","User" })
+            .ToListAsync();
         if (!existStars.Any())
             throw new AuthorNotFoundException();
 
@@ -79,7 +80,8 @@ public class BookStarService : IBookStarService
     public async Task<IEnumerable<BookStarResultDto>> GetByUserIdAsync(long userId)
     {
         var existStars = await _bookStarRepository.SelectAll(
-            book => book.UserId.Equals(userId)).ToListAsync();
+            book => book.UserId.Equals(userId),includes: new[] { "Book", "User" })
+            .ToListAsync();
         if (!existStars.Any())
             throw new AuthorNotFoundException();
 
@@ -88,7 +90,8 @@ public class BookStarService : IBookStarService
 
     public async Task<IEnumerable<BookStarResultDto>> GetAllAsync()
     {
-        var existStars = await _bookStarRepository.SelectAll().ToListAsync();
+        var existStars = await _bookStarRepository.SelectAll(includes: new[] { "Book", "User" })
+            .ToListAsync();
         return _mapper.Map<IEnumerable<BookStarResultDto>>(existStars);
     }
 

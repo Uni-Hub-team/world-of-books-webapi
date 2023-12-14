@@ -2,11 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using WorldOfBooks.Application.Exceptions.Authors;
 using WorldOfBooks.DataAccess.IRepositories;
-using WorldOfBooks.Domain.Configurations;
 using WorldOfBooks.Domain.Entities.Books;
 using WorldOfBooks.Domain.Entities.Users;
 using WorldOfBooks.Persistence.Dtos.Comments;
-using WorldOfBooks.Service.Extensions;
 using WorldOfBooks.Service.Interfaces.Books;
 
 namespace WorldOfBooks.Service.Service.Books;

@@ -1,5 +1,4 @@
-﻿using WorldOfBooks.Domain.Configurations;
-using WorldOfBooks.Persistence.Dtos.Comments;
+﻿using WorldOfBooks.Persistence.Dtos.Comments;
 
 namespace WorldOfBooks.Service.Interfaces.Books;
 

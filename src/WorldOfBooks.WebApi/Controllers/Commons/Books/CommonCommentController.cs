@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WorldOfBooks.Domain.Configurations;
 using WorldOfBooks.Service.Interfaces.Books;
-using WorldOfBooks.Service.Service.Books;
 
 namespace WorldOfBooks.WebApi.Controllers.Commons.Books;
 [Route("api/common/book/comment")]
