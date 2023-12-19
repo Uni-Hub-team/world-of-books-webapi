@@ -1,5 +1,4 @@
 ﻿using WorldOfBooks.Domain.Commons;
-using WorldOfBooks.Domain.Entities.Categories;
 
 namespace WorldOfBooks.Persistence.Dtos.Categories;
 

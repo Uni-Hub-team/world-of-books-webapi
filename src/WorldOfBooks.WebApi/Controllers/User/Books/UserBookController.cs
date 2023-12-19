@@ -5,8 +5,8 @@ using WorldOfBooks.Service.Interfaces.Books;
 
 namespace WorldOfBooks.WebApi.Controllers.User.Books;
 
-[Route("api/user/book")]
 [ApiController]
+[Route("api/user/book")]
 public class UserBookController : BaseUserController
 {
     private IBookReadService _readService;

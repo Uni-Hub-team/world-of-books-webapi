@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Newtonsoft.Json;
 using WorldOfBooks.DataAccess.IRepositories;
 using WorldOfBooks.DataAccess.Repositories;
 using WorldOfBooks.Service.Interfaces.Auth;
@@ -14,8 +15,6 @@ using WorldOfBooks.Service.Service.Books;
 using WorldOfBooks.Service.Service.Common;
 using WorldOfBooks.Service.Service.Users;
 using WorldOfBooks.WebApi.Middleware;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 
 namespace WorldOfBooks.WebApi.Extensions;
 
@@ -51,6 +50,7 @@ public static class ServiceExtensions
         services.AddScoped<IAuthorService, AuthorService>();
         services.AddScoped<IFileService, FileService>();
         services.AddScoped<IBookService, BookService>();
+        services.AddScoped<IBookStarService, BookStarService>();
         services.AddScoped<IIdentityService, IdentityService>();
 
         #endregion

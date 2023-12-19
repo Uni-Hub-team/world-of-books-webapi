@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WorldOfBooks.Persistence.Dtos.Books;
 using WorldOfBooks.Persistence.Dtos.Comments;
 using WorldOfBooks.Service.Interfaces.Books;
-using WorldOfBooks.Service.Service.Books;
 
 namespace WorldOfBooks.WebApi.Controllers.User.Comments;
-[Route("api/user/book/comment")]
+
 [ApiController]
+[Route("api/user/book/comment")]
 public class UserCommentController : BaseUserController
 {
     private readonly ICommentService _commentService;
