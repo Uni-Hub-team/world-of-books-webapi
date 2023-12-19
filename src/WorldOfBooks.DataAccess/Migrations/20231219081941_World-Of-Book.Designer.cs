@@ -12,8 +12,8 @@ using WorldOfBooks.DataAccess.Contexts;
 namespace WorldOfBooks.DataAccess.Migrations
 {
     [DbContext(typeof(WorldOfBooksDbContext))]
-    [Migration("20231214100810_UpdateBookStarMigration")]
-    partial class UpdateBookStarMigration
+    [Migration("20231219081941_World-Of-Book")]
+    partial class WorldOfBook
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -122,8 +122,8 @@ namespace WorldOfBooks.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<float>("AvverageStars")
-                        .HasColumnType("real");
+                    b.Property<double>("AverageStars")
+                        .HasColumnType("double precision");
 
                     b.Property<long>("BookId")
                         .HasColumnType("bigint");
