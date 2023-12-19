@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -6,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WorldOfBooks.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class WorldOfBooks : Migration
+    public partial class WorldOfBook : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,11 +18,11 @@ namespace WorldOfBooks.DataAccess.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FullName = table.Column<string>(type: "text", nullable: false),
-                    Birthday = table.Column<string>(type: "text", nullable: false),
-                    BirthdayCountry = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    ImagePath = table.Column<string>(type: "text", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: true),
+                    Birthday = table.Column<string>(type: "text", nullable: true),
+                    BirthdayCountry = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    ImagePath = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
@@ -32,20 +33,20 @@ namespace WorldOfBooks.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    status = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Status = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -54,13 +55,13 @@ namespace WorldOfBooks.DataAccess.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FirstName = table.Column<string>(type: "text", nullable: false),
-                    LastName = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    Phone = table.Column<string>(type: "text", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: false),
-                    Salt = table.Column<string>(type: "text", nullable: false),
-                    ImagePath = table.Column<string>(type: "text", nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    Phone = table.Column<string>(type: "text", nullable: true),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    Salt = table.Column<string>(type: "text", nullable: true),
+                    ImagePath = table.Column<string>(type: "text", nullable: true),
                     Gender = table.Column<int>(type: "integer", nullable: false),
                     Role = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -73,12 +74,12 @@ namespace WorldOfBooks.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SubCategory",
+                name: "SubCategories",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
                     CategoryId = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -86,11 +87,11 @@ namespace WorldOfBooks.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SubCategory", x => x.Id);
+                    table.PrimaryKey("PK_SubCategories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SubCategory_Category_CategoryId",
+                        name: "FK_SubCategories_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Category",
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -101,11 +102,11 @@ namespace WorldOfBooks.DataAccess.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    SourcePath = table.Column<string>(type: "text", nullable: false),
-                    ImagePath = table.Column<string>(type: "text", nullable: false),
-                    AudioPath = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    SourcePath = table.Column<string>(type: "text", nullable: true),
+                    ImagePath = table.Column<string>(type: "text", nullable: true),
+                    AudioPath = table.Column<string>(type: "text", nullable: true),
                     CategoryId = table.Column<long>(type: "bigint", nullable: false),
                     SubCategoryId = table.Column<long>(type: "bigint", nullable: false),
                     AuthorId = table.Column<long>(type: "bigint", nullable: false),
@@ -123,15 +124,15 @@ namespace WorldOfBooks.DataAccess.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Books_Category_CategoryId",
+                        name: "FK_Books_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Category",
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Books_SubCategory_SubCategoryId",
+                        name: "FK_Books_SubCategories_SubCategoryId",
                         column: x => x.SubCategoryId,
-                        principalTable: "SubCategory",
+                        principalTable: "SubCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -143,6 +144,7 @@ namespace WorldOfBooks.DataAccess.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Star = table.Column<int>(type: "integer", nullable: false),
+                    AverageStars = table.Column<double>(type: "double precision", nullable: false),
                     BookId = table.Column<long>(type: "bigint", nullable: false),
                     UserId = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -172,7 +174,7 @@ namespace WorldOfBooks.DataAccess.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Text = table.Column<string>(type: "text", nullable: false),
+                    Text = table.Column<string>(type: "text", nullable: true),
                     BookId = table.Column<long>(type: "bigint", nullable: false),
                     UserId = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -226,7 +228,7 @@ namespace WorldOfBooks.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserSortedBook",
+                name: "UserSortedBooks",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -240,15 +242,15 @@ namespace WorldOfBooks.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserSortedBook", x => x.Id);
+                    table.PrimaryKey("PK_UserSortedBooks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserSortedBook_Books_BookId",
+                        name: "FK_UserSortedBooks_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserSortedBook_Users_UserId",
+                        name: "FK_UserSortedBooks_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -263,7 +265,6 @@ namespace WorldOfBooks.DataAccess.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     User = table.Column<long>(type: "bigint", nullable: false),
                     Anonym = table.Column<long>(type: "bigint", nullable: false),
-                    All = table.Column<long>(type: "bigint", nullable: false),
                     BookId = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -326,18 +327,18 @@ namespace WorldOfBooks.DataAccess.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SubCategory_CategoryId",
-                table: "SubCategory",
+                name: "IX_SubCategories_CategoryId",
+                table: "SubCategories",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserSortedBook_BookId",
-                table: "UserSortedBook",
+                name: "IX_UserSortedBooks_BookId",
+                table: "UserSortedBooks",
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserSortedBook_UserId",
-                table: "UserSortedBook",
+                name: "IX_UserSortedBooks_UserId",
+                table: "UserSortedBooks",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -359,7 +360,7 @@ namespace WorldOfBooks.DataAccess.Migrations
                 name: "Reads");
 
             migrationBuilder.DropTable(
-                name: "UserSortedBook");
+                name: "UserSortedBooks");
 
             migrationBuilder.DropTable(
                 name: "Views");
@@ -374,10 +375,10 @@ namespace WorldOfBooks.DataAccess.Migrations
                 name: "Author");
 
             migrationBuilder.DropTable(
-                name: "SubCategory");
+                name: "SubCategories");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Categories");
         }
     }
 }
