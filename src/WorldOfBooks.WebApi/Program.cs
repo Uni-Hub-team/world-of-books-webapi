@@ -38,7 +38,7 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseMiddleware<ExceptionHandlerMiddleware>();
-app.UseExceptionHandler(c => c.Run(async context =>
+/*app.UseExceptionHandler(c => c.Run(async context =>
 {
     var exception = context.Features
         .Get<IExceptionHandlerPathFeature>()
@@ -46,7 +46,7 @@ app.UseExceptionHandler(c => c.Run(async context =>
     var response = new { error = exception.Message };
     await context.Response.WriteAsJsonAsync(response);
 }));
-
+*/
 app.ApplyMigrations();
 
 app.InitAccessor();
@@ -54,6 +54,7 @@ app.InitAccessor();
 app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
+app.UseMiddleware<WorldOfBooks.WebApi.Extensions.ExceptionHandlerMiddleware>();
 
 app.UseStaticFiles();
 
