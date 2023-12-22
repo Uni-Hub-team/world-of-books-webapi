@@ -33,7 +33,8 @@ public class AuthService : IAuthService
         IMapper mapper,
         IRepository<User> userRepository,
         IMemoryCache memory,
-        ITokenService token)
+        ITokenService token
+)
     {
         _tokenService = token;
         _mapper = mapper;
@@ -63,7 +64,7 @@ public class AuthService : IAuthService
 
     public async Task<RegisterResult> RegisterAsync(UserCreateDto dto)
     {
-        var dbResult = await _userRepository.SelectAsync(user => user.Phone.Equals(dto.Phone));
+        var dbResult = await _userRepository.SelectAsync(user => user.Phone.Equals(dto.Phone) || user.Email.Equals(dto.Email));
 
         if (dbResult is not null)
             throw new UserAlreadyExistsException();
@@ -111,7 +112,7 @@ public class AuthService : IAuthService
             smsSenderDto.Title = "Kitoblar Olami\n";
             smsSenderDto.Content = "Sizning tasdiqlash kodingiz : " + verificationDto.Code;
             smsSenderDto.Recipient = userCreate.Phone.Substring(1);
-            var result = true;//await _smsSender.SendAsync(smsSenderDto);
+            var result = true; //await _smsSender.SendAsync(smsSenderDto);
 
             if (result is true)
             {
