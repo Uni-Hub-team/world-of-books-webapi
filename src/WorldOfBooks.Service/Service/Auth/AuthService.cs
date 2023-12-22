@@ -117,7 +117,7 @@ public class AuthService : IAuthService
                 VerificationDto verificationDto = new VerificationDto();
                 verificationDto.Attempt = 0;
                 verificationDto.CreatedAt = DateTime.UtcNow;
-                verificationDto.Code = CodeGenerator.RandomCodeGenerator();
+                verificationDto.Code = 12345;//CodeGenerator.RandomCodeGenerator();
                 _memoryCache.Set(userCreate.Phone, verificationDto, TimeSpan.FromMinutes(CACHED_FOR_MINUTS_VEFICATION));
 
                 if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + userCreate.Phone,
@@ -133,7 +133,7 @@ public class AuthService : IAuthService
                 smsSenderDto.Title = "Kitoblar Olami\n";
                 smsSenderDto.Content = "Sizning tasdiqlash kodingiz : " + verificationDto.Code;
                 smsSenderDto.Recipient = userCreate.Phone.Substring(1);
-                var result = await _smsSend.SendAsync(smsSenderDto);
+                var result = true; // await _smsSend.SendAsync(smsSenderDto);
 
                 if (result is true)
                 {
