@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using WorldOfBooks.Persistence.Dtos.Books;
-using WorldOfBooks.Persistence.ViewModels.Books;
+﻿using WorldOfBooks.Persistence.Dtos.Books;
 
 namespace WorldOfBooks.Service.Interfaces.Books;
 
