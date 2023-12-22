@@ -6,7 +6,7 @@ using WorldOfBooks.Service.Interfaces.Notifications;
 
 namespace WorldOfBooks.Service.Services.Notification;
 
-public class EmailSender : IEmailsender
+public class EmailSender : IEmailSender
 {
     private readonly string SENDER = string.Empty;
     private readonly string PLATFORM = string.Empty;

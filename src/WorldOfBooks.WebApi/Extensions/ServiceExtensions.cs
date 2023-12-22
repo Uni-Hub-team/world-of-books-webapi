@@ -7,6 +7,7 @@ using WorldOfBooks.Service.Interfaces.Authors;
 using WorldOfBooks.Service.Interfaces.Books;
 using WorldOfBooks.Service.Interfaces.Categories;
 using WorldOfBooks.Service.Interfaces.Common;
+using WorldOfBooks.Service.Interfaces.Notifications;
 using WorldOfBooks.Service.Interfaces.User;
 using WorldOfBooks.Service.Mappers;
 using WorldOfBooks.Service.Service.Auth;
@@ -14,6 +15,7 @@ using WorldOfBooks.Service.Service.Authors;
 using WorldOfBooks.Service.Service.Books;
 using WorldOfBooks.Service.Service.Common;
 using WorldOfBooks.Service.Service.Users;
+using WorldOfBooks.Service.Services.Notification;
 using WorldOfBooks.WebApi.Middleware;
 
 namespace WorldOfBooks.WebApi.Extensions;
@@ -52,6 +54,8 @@ public static class ServiceExtensions
         services.AddScoped<IBookService, BookService>();
         services.AddScoped<IBookStarService, BookStarService>();
         services.AddScoped<IIdentityService, IdentityService>();
+        services.AddScoped<ISmsSender, SmsSender>();
+        services.AddScoped<IEmailSender, EmailSender>();
 
         #endregion
     }

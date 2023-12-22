@@ -2,7 +2,7 @@
 
 namespace WorldOfBooks.Service.Interfaces.Notifications
 {
-    public interface IEmailsender
+    public interface IEmailSender
     {
         public Task<bool> SenderAsync(EmailSenderDto emailMessage);
     }

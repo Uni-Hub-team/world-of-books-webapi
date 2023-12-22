@@ -23,10 +23,11 @@ public class AuthService : IAuthService
     private const int VERIFICATION_MAXIMUM_ATTEMPTS = 3;
 
     private const string REGISTER_CACHE_KEY = "register_";
+    private const string REGISTER_CACHE_KEY_Email = "register_";
     private const string VERIFY_REGISTER_CACHE_KEY = "verify_register_";
-    private const string Reset_CACHE_KEY = "reset_";
+    private const string VERIFY_REGISTER_CACHE_KEY_Email = "verify_register_";
     private ISmsSender _smsSend;
-    private IEmailsender _emailSend;
+    private IEmailSender _emailSend;
     private ITokenService _tokenService;
     private IMapper _mapper;
     private IRepository<User> _userRepository;
@@ -37,7 +38,7 @@ public class AuthService : IAuthService
         IRepository<User> userRepository,
         IMemoryCache memory,
         ITokenService token,
-        IEmailsender emailSender,
+        IEmailSender emailSender,
         ISmsSender smsSender
 )
     {
@@ -87,6 +88,17 @@ public class AuthService : IAuthService
                 (CACHED_FOR_MINUTS_REGISTER));
         }
 
+        if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.Email, out UserCreateDto registerDto))
+        {
+            registerDto.Email = registerDto.Email;
+            _memoryCache.Remove(dto.Email);
+        }
+        else
+        {
+            _memoryCache.Set(REGISTER_CACHE_KEY + dto.Email, dto, TimeSpan.FromMinutes
+                (CACHED_FOR_MINUTS_REGISTER));
+        }
+
         RegisterResult register = new RegisterResult
         {
             Result = true,
@@ -98,7 +110,7 @@ public class AuthService : IAuthService
 
     public async Task<SendCodeResult> SendCodeForRegister(SendCodeDto dto)
     {
-        if (dto.Phone is not null)
+        if (dto.Phone.Contains('+'))
         {
             if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.Phone, out UserCreateDto userCreate))
             {
@@ -149,7 +161,7 @@ public class AuthService : IAuthService
                 throw new ExpiredException();
             }
         }
-        else if (dto.Email is not null)
+        else if (dto.Email.Contains('@'))
         {
             if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.Email, out UserCreateDto registerDto))
             {
@@ -205,7 +217,7 @@ public class AuthService : IAuthService
 
     public async Task<VerifyResult> VerifyRegisterAsync(VerifyCode dto)
     {
-        if (dto.Phone is not null)
+        if (dto.Phone.Contains('+'))
         {
 
             if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.Phone, out UserCreateDto createDto))
@@ -256,7 +268,7 @@ public class AuthService : IAuthService
             }
             else throw new ExpiredException();
         }
-        else if (dto.Email is not null)
+        else if (dto.Email.Contains('@'))
         {
             if (_memoryCache.TryGetValue(REGISTER_CACHE_KEY + dto.Email, out UserCreateDto userRegisterDto))
             {
