@@ -1,5 +1,5 @@
-﻿using  WorldOfBooks.Application.Exceptions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using WorldOfBooks.Application.Exceptions;
 
 namespace WorldOfBooks.WebApi.Extensions;
 

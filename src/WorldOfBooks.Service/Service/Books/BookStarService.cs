@@ -69,7 +69,7 @@ public class BookStarService : IBookStarService
     public async Task<IEnumerable<BookStarResultDto>> GetByBookIdAsync(long bookId)
     {
         var existStars = await _bookStarRepository.SelectAll(
-            book => book.BookId.Equals(bookId), includes: new[] { "Book","User" })
+            book => book.BookId.Equals(bookId), includes: new[] { "Book", "User" })
             .ToListAsync();
         if (!existStars.Any())
             throw new AuthorNotFoundException();
@@ -80,7 +80,7 @@ public class BookStarService : IBookStarService
     public async Task<IEnumerable<BookStarResultDto>> GetByUserIdAsync(long userId)
     {
         var existStars = await _bookStarRepository.SelectAll(
-            book => book.UserId.Equals(userId),includes: new[] { "Book", "User" })
+            book => book.UserId.Equals(userId), includes: new[] { "Book", "User" })
             .ToListAsync();
         if (!existStars.Any())
             throw new AuthorNotFoundException();

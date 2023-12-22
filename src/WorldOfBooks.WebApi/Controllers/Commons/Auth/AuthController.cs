@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WorldOfBooks.Persistence.Dtos.Auth;
 using WorldOfBooks.Persistence.Dtos.User;
+using WorldOfBooks.Persistence.Validations;
+using WorldOfBooks.Persistence.Validations.Dtos.AuthUserValidators;
 using WorldOfBooks.Service.Interfaces.Auth;
 
 namespace WorldOfBooks.WebApi.Controllers.Commons.Auth;
@@ -19,48 +21,79 @@ public class AuthController : BaseController
     [HttpPost("register")]
     public async Task<IActionResult> RegisterAsync([FromForm] UserCreateDto dto)
     {
-        //UserRegisterValidator validations = new UserRegisterValidator();
-        //var resltvalid = validations.Validate(dto);
-        if (true)
+        UserRegisterValidator validations = new UserRegisterValidator();
+        var resultValid = validations.Validate(dto);
+        if (resultValid.IsValid)
         {
             var result = await _service.RegisterAsync(dto);
 
             return Ok(result);
         }
+        else
+            return BadRequest(resultValid.Errors);
     }
 
     [HttpPost("register/send-code")]
     public async Task<IActionResult> SendCodeAsync([FromBody] SendCodeDto dto)
     {
-        // var valid = PhoneNumberValidator.IsValid(phone);
-        if (true)
+        var valid = PhoneNumberValidator.IsValid(dto.Phone);
+        var emailValid = EmailValidator.IsValid(dto.Email);
+
+        if (emailValid || valid)
         {
             var result = await _service.SendCodeForRegister(dto);
 
             return Ok(result);
         }
+        return BadRequest();
 
     }
 
     [HttpPost("register/verify")]
     public async Task<IActionResult> VerifyRegisterAsync([FromBody] VerifyCode dto)
     {
-        //var res = PhoneNumberValidator.IsValid(dto.PhoneNumber);
-        //if (res == false) return BadRequest("Phone number is invalid!");
-        var srResult = await _service.VerifyRegisterAsync(dto);
+        var valid = PhoneNumberValidator.IsValid(dto.Phone);
+        var emailValid = EmailValidator.IsValid(dto.Email);
+        if (emailValid || valid)
+        {
+            var srResult = await _service.VerifyRegisterAsync(dto);
 
-        return Ok(new { srResult.Result, srResult.Token });
+            return Ok(new { srResult.Result, srResult.Token });
+        }
+        else return BadRequest();
+
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> LoginAsync([FromBody] UserLoginDto dto)
     {
-        /*  var res = PhoneNumberValidator.IsValid(dto.PhoneNumber);
-          if (res == false)
-              return BadRequest("Phone number is invalid!");*/
+        if (dto.Login.Contains('@'))
+        {
+            UserLoginValidatorWithEmail resultvalid = new UserLoginValidatorWithEmail();
+            var resultValid = resultvalid.Validate(dto);
 
-        var serviceResult = await _service.LoginAsync(dto);
+            if (resultValid.IsValid)
+            {
+                var serviceResult = await _service.LoginAsync(dto);
 
-        return Ok(serviceResult);
+                return Ok(serviceResult);
+            }
+            else
+                return BadRequest(resultValid.Errors);
+        }
+        else
+        {
+            UserLoginValidator validations = new UserLoginValidator();
+            var result = validations.Validate(dto);
+
+            if (result.IsValid)
+            {
+                var serviceResult = await _service.LoginAsync(dto);
+
+                return Ok(serviceResult);
+            }
+            else
+                return BadRequest(result.Errors);
+        }
     }
 }
