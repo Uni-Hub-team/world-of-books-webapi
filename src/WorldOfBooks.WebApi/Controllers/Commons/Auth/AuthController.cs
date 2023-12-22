@@ -39,7 +39,7 @@ public class AuthController : BaseController
         var valid = PhoneNumberValidator.IsValid(dto.Phone);
         var emailValid = EmailValidator.IsValid(dto.Email);
 
-        if (emailValid && valid)
+        if (emailValid || valid)
         {
             var result = await _service.SendCodeForRegister(dto);
 
@@ -52,27 +52,48 @@ public class AuthController : BaseController
     [HttpPost("register/verify")]
     public async Task<IActionResult> VerifyRegisterAsync([FromBody] VerifyCode dto)
     {
-        var res = PhoneNumberValidator.IsValid(dto.Phone);
-        if (res == false) return BadRequest("Phone number is invalid!");
+        var valid = PhoneNumberValidator.IsValid(dto.Phone);
+        var emailValid = EmailValidator.IsValid(dto.Email);
+        if (emailValid || valid)
+        {
+            var srResult = await _service.VerifyRegisterAsync(dto);
 
-        var srResult = await _service.VerifyRegisterAsync(dto);
+            return Ok(new { srResult.Result, srResult.Token });
+        }
+        else return BadRequest();
 
-        return Ok(new { srResult.Result, srResult.Token });
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> LoginAsync([FromBody] UserLoginDto dto)
     {
-        UserLoginValidator validations = new UserLoginValidator();
-        var result = validations.Validate(dto);
-
-        if (result.IsValid)
+        if (dto.Login.Contains('@'))
         {
-            var serviceResult = await _service.LoginAsync(dto);
+            UserLoginValidatorWithEmail resultvalid = new UserLoginValidatorWithEmail();
+            var resultValid = resultvalid.Validate(dto);
 
-            return Ok(serviceResult);
+            if (resultValid.IsValid)
+            {
+                var serviceResult = await _service.LoginAsync(dto);
+
+                return Ok(serviceResult);
+            }
+            else
+                return BadRequest(resultValid.Errors);
         }
         else
-            return BadRequest(result.Errors);
+        {
+            UserLoginValidator validations = new UserLoginValidator();
+            var result = validations.Validate(dto);
+
+            if (result.IsValid)
+            {
+                var serviceResult = await _service.LoginAsync(dto);
+
+                return Ok(serviceResult);
+            }
+            else
+                return BadRequest(result.Errors);
+        }
     }
 }
