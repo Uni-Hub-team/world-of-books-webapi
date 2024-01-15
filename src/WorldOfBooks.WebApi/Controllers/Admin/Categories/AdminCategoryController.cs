@@ -17,7 +17,7 @@ public class AdminCategoryController : BaseAdminController
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromForm] CategoryCreateDto dto)
+    public async Task<IActionResult> CreateAsync([FromBody] CategoryCreateDto dto)
         => Ok(await _categoryService.CreateAsync(dto));
 
     [HttpPut("{Id}")]

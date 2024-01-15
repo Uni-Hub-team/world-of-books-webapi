@@ -16,11 +16,11 @@ public class UserBookStarsContoller : BaseUserController
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromForm] BookStarCreationDto dto)
+    public async Task<IActionResult> CreateAsync([FromBody] BookStarCreationDto dto)
        => Ok(await _bookStarService.CreateAsync(dto));
 
     [HttpPut("{Id}")]
-    public async Task<IActionResult> UpdateAsync(long Id, [FromForm] BookStarUpdateDto dto)
+    public async Task<IActionResult> UpdateAsync(long Id, [FromBody] BookStarUpdateDto dto)
         => Ok(await _bookStarService.UpdateAsync(Id, dto));
 
     [HttpGet("userId")]

@@ -16,7 +16,7 @@ public class AdminBookController : BaseAdminController
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromForm] BookCreateDto dto)
+    public async Task<IActionResult> CreateAsync([FromBody] BookCreateDto dto)
         => Ok(await _bookService.CreateAsync(dto));
 
     [HttpDelete("{Id}")]
@@ -24,7 +24,7 @@ public class AdminBookController : BaseAdminController
     => Ok(await _bookService.DeleteAsync(Id));
 
     [HttpPut("{Id}")]
-    public async Task<IActionResult> UpdateAsync(long Id, [FromForm] BookUpdateDto dto)
+    public async Task<IActionResult> UpdateAsync(long Id, [FromBody] BookUpdateDto dto)
         => Ok(await _bookService.UpdateAsync(Id, dto));
 
     [HttpPut("image/{Id}")]
