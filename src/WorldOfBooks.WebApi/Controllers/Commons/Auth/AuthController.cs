@@ -19,7 +19,7 @@ public class AuthController : BaseController
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> RegisterAsync([FromForm] UserCreateDto dto)
+    public async Task<IActionResult> RegisterAsync([FromBody] UserCreateDto dto)
     {
         UserRegisterValidator validations = new UserRegisterValidator();
         var resultValid = validations.Validate(dto);

@@ -15,7 +15,7 @@ public class UserCommentController : BaseUserController
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromForm] CommentCreationDto dto)
+    public async Task<IActionResult> CreateAsync([FromBody] CommentCreationDto dto)
        => Ok(await _commentService.CreateAsync(dto));
 
     [HttpDelete("{Id}")]

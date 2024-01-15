@@ -16,7 +16,7 @@ public class AdminAuthorController : BaseAdminController
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromForm] AuthorCreateDto dto)
+    public async Task<IActionResult> CreateAsync([FromBody] AuthorCreateDto dto)
         => Ok(await _authorService.CreateAsync(dto));
 
     [HttpPut("{Id}")]
